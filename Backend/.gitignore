@@ -1,0 +1,24 @@
+# --- JAVA / SPRING BOOT ---
+**/target/
+**/build/
+*.class
+*.jar
+*.war
+.gradle/
+build.gradle
+!**/src/**
+
+# --- NODE.JS / IONIC / ANGULAR ---
+**/node_modules/
+**/dist/
+**/www/
+.sourcemaps/
+.pnp*
+.cache/
+
+# --- IDEs & OS ---
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
