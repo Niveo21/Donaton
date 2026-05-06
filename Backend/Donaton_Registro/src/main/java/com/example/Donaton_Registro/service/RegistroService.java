@@ -23,4 +23,16 @@ public class RegistroService {
         return registroRepository.findAll();
     }
 
+     public boolean validarLogin(String email, String password) {
+        Registro registro = registroRepository.findById(email).orElse(null);
+        if (registro != null && registro.getPassword().equals(password)) {
+            return true;
+        }
+        return false;
+    }
+    public Registro obtenerPorEmail(String email) {
+        return registroRepository.findById(email).orElse(null);
+    }
 }
+
+

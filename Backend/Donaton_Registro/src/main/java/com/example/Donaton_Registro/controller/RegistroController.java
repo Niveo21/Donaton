@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Donaton_Registro.model.Registro;
 import com.example.Donaton_Registro.service.RegistroService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/registro")
 public class RegistroController {
@@ -22,7 +24,7 @@ public class RegistroController {
 
 
     @PostMapping
-    public String almacenarRegistro(@RequestBody Registro registro) {
+    public String almacenarRegistro(@Valid @RequestBody Registro registro) {
         registroService.almacenarRegistro(registro);
         return "Registro almacenado correctamente";
     }

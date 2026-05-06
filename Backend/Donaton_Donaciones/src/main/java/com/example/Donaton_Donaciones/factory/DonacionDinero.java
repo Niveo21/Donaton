@@ -1,9 +1,6 @@
 package com.example.Donaton_Donaciones.factory;
 
-/**
- * Producto concreto: Donación de dinero.
- * No requiere logística ya que no es un recurso físico.
- */
+
 public class DonacionDinero implements DonacionBase {
 
     private int cantidad;
