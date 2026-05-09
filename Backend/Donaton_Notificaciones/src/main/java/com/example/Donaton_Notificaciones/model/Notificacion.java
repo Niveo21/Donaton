@@ -2,13 +2,17 @@ package com.example.Donaton_Notificaciones.model;
 
 import java.time.LocalDateTime;
 
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Notificacion {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String mensaje;
     private LocalDateTime fechaEnvio;
@@ -18,8 +22,7 @@ public class Notificacion {
     public Notificacion() {
     }
 
-    public Notificacion(int id, String mensaje, LocalDateTime fechaEnvio, Boolean leido) {
-        this.id = id;
+    public Notificacion( String mensaje, LocalDateTime fechaEnvio, Boolean leido) {
         this.mensaje = mensaje;
         this.fechaEnvio = LocalDateTime.now();
         this.leido = leido;

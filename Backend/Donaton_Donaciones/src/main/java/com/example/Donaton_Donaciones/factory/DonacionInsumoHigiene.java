@@ -20,7 +20,7 @@ public class DonacionInsumoHigiene implements DonacionBase {
     public String getTipoDonacion() {
         return "INSUMO_HIGIENE";
     }
-
+    
     @Override
     public String getDescripcion() {
         return "Donación de insumo de higiene: " + cantidad + " unidades de " + nombre + " (categoría: " + categoria + ")";

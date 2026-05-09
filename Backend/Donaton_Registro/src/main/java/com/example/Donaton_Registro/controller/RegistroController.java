@@ -25,8 +25,12 @@ public class RegistroController {
 
     @PostMapping
     public String almacenarRegistro(@Valid @RequestBody Registro registro) {
-        registroService.almacenarRegistro(registro);
-        return "Registro almacenado correctamente";
+        return registroService.almacenarRegistro(registro);
+    }
+
+    @PostMapping("/login")
+    public boolean validarLogin(@RequestBody Registro registro) {
+        return registroService.validarLogin(registro.getEmail(), registro.getPassword());
     }
 
     @GetMapping

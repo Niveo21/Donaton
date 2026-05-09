@@ -14,7 +14,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
  * interceptar la llamada a través del proxy (no es una auto-invocación).
  */
 @Service
-public class LogisticaClient {
+public class LogisticaBreakerService {
 
     @Autowired
     private RestTemplate restTemplate;

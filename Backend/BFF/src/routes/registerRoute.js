@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Endpoint de ejemplo: BFF consumiendo a tu microservicio en Java
+
 app.get('/', async (req, res) => {
     try {
        

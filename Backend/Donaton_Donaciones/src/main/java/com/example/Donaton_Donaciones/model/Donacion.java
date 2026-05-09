@@ -17,6 +17,7 @@ public class Donacion {
      private LocalDateTime fechaDonacion;
      private String estado;
      private String tipoDonacion;
+     
 
         public Donacion() {
         }

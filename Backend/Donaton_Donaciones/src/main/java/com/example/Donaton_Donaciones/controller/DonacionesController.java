@@ -24,7 +24,7 @@ public class DonacionesController {
     /**
      * Endpoint para crear una donación usando Factory Method.
      * Recibe un DonacionRequest con el tipoDonacion y los campos correspondientes.
-     * La fábrica se encarga de crear, validar y procesar el tipo correcto.
+     * La factory se encarga de crear, validar y procesar el tipo correcto.
      */
     @PostMapping
     public ResponseEntity<?> almacenarDonacion(@RequestBody DonacionRequest request) {

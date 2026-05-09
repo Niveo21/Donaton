@@ -2,18 +2,12 @@ package com.example.Donaton_Donaciones.factory;
 
 import com.example.Donaton_Donaciones.dto.DonacionRequest;
 
-/**
- * Factory Method: crea el tipo correcto de donación según el campo tipoDonacion del request.
- */
+
+  // Factory Method: crea el tipo correcto de donación según el campo tipoDonacion del request.
+ 
 public class DonacionFactory {
 
-    /**
-     * Crea una instancia del producto concreto correspondiente al tipo de donación.
-     *
-     * @param request DTO con los datos de la donación
-     * @return instancia de DonacionBase del tipo correcto
-     * @throws IllegalArgumentException si el tipo no es soportado
-     */
+    
     public static DonacionBase crearDonacion(DonacionRequest request) {
 
         switch (request.getTipoDonacion().toUpperCase()) {

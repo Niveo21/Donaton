@@ -32,9 +32,9 @@ public class DonacionRequest {
 
     // Campos para INSUMO_HIGIENE
     private String categoria; // "personal" o "hogar"
-    // Nota: "nombre" y "cantidad" se comparten con ALIMENTO
+    
 
-    // Constructor vacío requerido por Jackson
+    // Constructor vacío no tocar ultima advertencia
     public DonacionRequest() {
     }
 

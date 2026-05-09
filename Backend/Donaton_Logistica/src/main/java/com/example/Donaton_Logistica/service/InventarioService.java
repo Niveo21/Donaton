@@ -26,9 +26,22 @@ public class InventarioService {
         return inventarioRepository.findAll();
     }
 
+    public void restarStock(String articulo, int cantidad) {
+        Inventario inventario = inventarioRepository.findByRecurso(articulo)
+            .orElseThrow(() -> new IllegalArgumentException("Recurso no encontrado en inventario: " + articulo));
+
+        if (inventario.getStockActual() < cantidad) {
+            throw new IllegalStateException("Stock insuficiente para '" + articulo +
+                "'. Disponible: " + inventario.getStockActual() + ", solicitado: " + cantidad);
+        }
+
+        inventario.setStockActual(inventario.getStockActual() - cantidad);
+        inventarioRepository.save(inventario);
+    }
+
     public void sumarStock(String articulo, int cantidad) {
         // Buscamos si ya existe el recurso en bodega
-        // Despues debo cambiarlo por if convencional
+        // Despues debo cambiarlo
         inventarioRepository.findByRecurso(articulo).ifPresentOrElse(
             
             inventarioExistente -> {

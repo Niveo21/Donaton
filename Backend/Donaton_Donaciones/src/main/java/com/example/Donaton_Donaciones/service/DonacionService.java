@@ -19,7 +19,7 @@ public class DonacionService {
     private DonacionRepository donacionRepository;
 
     @Autowired
-    private LogisticaClient logisticaClient;
+    private LogisticaBreakerService logisticaClient;
 
     public List<Donacion> obtenerDonaciones() {
         return donacionRepository.findAll();
@@ -27,7 +27,7 @@ public class DonacionService {
 
     /**
      * Procesa una donación usando el patrón Factory Method.
-     * 1. La fábrica crea el tipo correcto de donación
+     * 1. La factoria crea el tipo correcto de donación
      * 2. Se validan los datos según las reglas del tipo
      * 3. Se persiste la entidad en la BD (una sola vez)
      * 4. Solo si requiere logística, se notifica vía LogisticaClient (con Circuit Breaker)
@@ -40,7 +40,7 @@ public class DonacionService {
         // 2. Cada tipo valida sus propios datos
         donacionBase.validar();
 
-        // 3. Construir la entidad JPA con los datos del producto
+        // 3. Construir la entidad con los datos del producto
         Donacion entidad = new Donacion();
         entidad.setTipoDonacion(donacionBase.getTipoDonacion());
         entidad.setTipoRecurso(donacionBase.getRecurso());
@@ -53,7 +53,7 @@ public class DonacionService {
         Donacion donacionGuardada = donacionRepository.save(entidad);
 
         // 4. Solo notificar a Logística si es un recurso físico
-        //    El Circuit Breaker funciona porque LogisticaClient es otro @Service (otro proxy de Spring)
+        //    El Circuit Breaker funciona porque LogisticaClient es otro @Service (otro proxy de Spring) basicamente la informacion no terminaba de llegar correctamente al circuitbreaker
         if (donacionBase.requiereLogistica()) {
             logisticaClient.notificarLogistica(donacionGuardada);
         }
