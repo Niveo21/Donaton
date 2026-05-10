@@ -2,14 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios'); 
 
-const app = express();
+const router = express.Router();
 
 
-app.use(cors());
-app.use(express.json());
+router.use(cors());
+router.use(express.json());
 
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
        
         console.log("Consultando microservicio de Java...");
@@ -34,7 +34,21 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.listen(3000, () => console.log('BFF corriendo en puerto 3000'));
 
 
-module.exports = { registroRoute };
+
+module.exports = router;
+
+router.post('/', async (req, res) => {
+    try {
+        const response = await axios.post('http://localhost:8084/registro', req.body);
+        
+        
+        return res.status(201).json(response.data);
+
+
+    }catch (error) {
+        console.error("Error en el microservicio de registro:", error.message);
+        res.status(500).json({ error: "No se pudo procesar el registro" });
+    }
+});

@@ -24,7 +24,7 @@ public class LogisticaBreakerService {
 
     @CircuitBreaker(name = "inventarioCB", fallbackMethod = "inventarioFallback")
     public void notificarLogistica(Donacion donacion) {
-        String url = "http://localhost:8081/inventario/actualizar";
+        String url = "http://DONATON-LOGISTICA/inventario/actualizar";
         restTemplate.postForObject(url, donacion, Void.class);
     }
 

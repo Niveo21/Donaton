@@ -1,4 +1,4 @@
-package com.example.Donaton_Donaciones.config;
+package com.example.donatonlogistica.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class AppConfig {
-
+    
     @Bean
     @LoadBalanced
     public RestTemplate restTemplate() {
