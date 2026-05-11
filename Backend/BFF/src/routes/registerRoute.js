@@ -37,17 +37,11 @@ router.get('/listar', async (req, res) => {
 
 
 
-module.exports = router;
-
 router.post('/registro', async (req, res) => {
     try {
         const response = await axios.post('http://localhost:8084/registro', req.body);
-        
-        
         return res.status(201).json(response.data);
-
-
-    }catch (error) {
+    } catch (error) {
         console.error("Error en el microservicio de registro:", error.message);
         res.status(500).json({ error: "No se pudo procesar el registro" });
     }
@@ -55,7 +49,6 @@ router.post('/registro', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        
         const response = await axios.post('http://localhost:8084/login', req.body);
         return res.status(200).json(response.data);
     } catch (error) {
@@ -63,3 +56,5 @@ router.post('/login', async (req, res) => {
         res.status(401).json({ error: "Credenciales inválidas" });
     }
 });
+
+module.exports = router;
