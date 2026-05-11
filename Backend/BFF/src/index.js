@@ -1,16 +1,24 @@
 const express = require('express');
 const cors = require('cors');
+
 const donacionRoute = require('./routes/donacionRoute');
 const registerRoute = require('./routes/registerRoute');
+const necesidadRoute = require('./routes/necesidadRoute');
+const notificacionRoute = require('./routes/notificacionRoute');
+const logisticaRoute = require('./routes/logisticaRoute');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/donacion', donacionRoute);
+// Rutas del BFF 
+app.use('/donacion', donacionRoute);      // puerto 8080
+app.use('/usuario', registerRoute);      // puerto 8084
+app.use('/necesidad', necesidadRoute);     // puerto 8082
+app.use('/notificacion', notificacionRoute); // puerto 8083
+app.use('/logistica', logisticaRoute);     // puerto 8081 (acopio, envio, inventario, transporte, voluntario)
+//--
 
-app.use('/usuario', registerRoute); // Descomentar cuando el archivo exista
-
-app.listen(3000, () => console.log('BFF corriendo en puerto 3000'));
-
+const PORT = 3000;
+app.listen(PORT, () => console.log(`BFF corriendo en puerto ${PORT}`));
