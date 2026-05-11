@@ -1,0 +1,61 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="cs-container header-inner">
+      <div class="logo" (click)="goTo('/home')">
+        <div class="logo-icon bg-gradient-accent shadow-glow">❤️</div>
+        <span class="logo-text">Chile <span class="text-gradient-accent">Solidario</span></span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="cs-container page-content">
+    <div class="page-header">
+      <span class="section-label">Registro empresa</span>
+      <h1 class="section-title">Súmate como empresa</h1>
+      <p class="section-subtitle">Donaciones corporativas, RSE y alianzas estratégicas para impactar Chile.</p>
+    </div>
+
+    <div class="form-card cs-card">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label class="cs-label">Razón social</label>
+          <input class="cs-input" placeholder="Empresa S.A." [(ngModel)]="form.razon" name="razon" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="cs-label">RUT empresa</label>
+            <input class="cs-input" placeholder="76.123.456-7" [(ngModel)]="form.rut" name="rut" />
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Giro comercial</label>
+            <input class="cs-input" placeholder="Retail" [(ngModel)]="form.giro" name="giro" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="cs-label">Nombre contacto</label>
+          <input class="cs-input" placeholder="Juan Pérez" [(ngModel)]="form.contacto" name="contacto" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="cs-label">Email corporativo</label>
+            <input class="cs-input" type="email" placeholder="contacto@empresa.cl" [(ngModel)]="form.email" name="email" />
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Teléfono</label>
+            <input class="cs-input" placeholder="+56 2 2345 6789" [(ngModel)]="form.telefono" name="telefono" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="cs-label">Sitio web (opcional)</label>
+          <input class="cs-input" placeholder="https://www.empresa.cl" [(ngModel)]="form.web" name="web" />
+        </div>
+        <button type="submit" class="btn-hero full-width">Registrar empresa</button>
+      </form>
+      <p class="login-link text-muted">
+        ¿Ya tienes cuenta? <a class="text-accent" (click)="goTo('/login')">Inicia sesión</a>
+      </p>
+    </div>
+  </div>
+</ion-content>

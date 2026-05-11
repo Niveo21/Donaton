@@ -1,2 +1,79 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+// Chile Solidario — Design Tokens
+// Replicating the original React/Vite design system
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+// ─── Color Palette ───────────────────────────────────────────────────────────
+:root {
+  // Ionic CSS variables override
+  --ion-color-primary: #3b5bdb;
+  --ion-color-primary-rgb: 59, 91, 219;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3450c1;
+  --ion-color-primary-tint: #4f6bdf;
+
+  --ion-color-secondary: #f0f4ff;
+  --ion-color-secondary-rgb: 240, 244, 255;
+  --ion-color-secondary-contrast: #1e2d6b;
+  --ion-color-secondary-contrast-rgb: 30, 45, 107;
+  --ion-color-secondary-shade: #d4daff;
+  --ion-color-secondary-tint: #f2f5ff;
+
+  --ion-color-danger: #e05a2b;
+  --ion-color-danger-rgb: 224, 90, 43;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #c54e26;
+  --ion-color-danger-tint: #e36b40;
+
+  --ion-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --ion-background-color: #fcfcff;
+  --ion-text-color: #1a2342;
+  --ion-border-color: #e4e8f5;
+  --ion-card-background: #ffffff;
+  --ion-toolbar-background: rgba(252, 252, 255, 0.85);
+  --ion-toolbar-color: #1a2342;
+
+  // Custom design tokens
+  --cs-primary: #3b5bdb;
+  --cs-primary-glow: #6484e8;
+  --cs-accent: #e05a2b;
+  --cs-accent-glow: #e8784f;
+  --cs-accent-foreground: #ffffff;
+  --cs-background: #fcfcff;
+  --cs-foreground: #1a2342;
+  --cs-card: #ffffff;
+  --cs-border: rgba(228, 232, 245, 0.8);
+  --cs-muted: #f0f4ff;
+  --cs-muted-foreground: #6478a8;
+  --cs-radius: 14px;
+
+  --cs-gradient-hero: linear-gradient(135deg, rgba(26, 35, 66, 0.88), rgba(59, 91, 219, 0.72), rgba(224, 90, 43, 0.68));
+  --cs-gradient-primary: linear-gradient(135deg, #3b5bdb, #6484e8);
+  --cs-gradient-accent: linear-gradient(135deg, #e05a2b, #e8784f);
+  --cs-gradient-soft: linear-gradient(180deg, #fcfcff, #f0f4ff);
+
+  --cs-shadow-elegant: 0 20px 50px -20px rgba(59, 91, 219, 0.35);
+  --cs-shadow-glow: 0 0 60px rgba(224, 90, 43, 0.4);
+  --cs-shadow-card: 0 10px 30px -15px rgba(26, 35, 66, 0.15);
+  --cs-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// ─── Dark Mode ───────────────────────────────────────────────────────────────
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #0f1529;
+    --ion-text-color: #f0f4ff;
+    --ion-card-background: #1a2342;
+    --ion-toolbar-background: rgba(15, 21, 41, 0.85);
+    --ion-toolbar-color: #f0f4ff;
+
+    --cs-background: #0f1529;
+    --cs-foreground: #f0f4ff;
+    --cs-card: #1a2342;
+    --cs-border: rgba(255, 255, 255, 0.1);
+    --cs-muted: #1e2d6b;
+    --cs-muted-foreground: #7a8ec4;
+  }
+}

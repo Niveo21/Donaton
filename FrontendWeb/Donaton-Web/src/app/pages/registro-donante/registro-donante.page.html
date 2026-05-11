@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="cs-container header-inner">
+      <div class="logo" (click)="goTo('/home')">
+        <div class="logo-icon bg-gradient-accent shadow-glow">D</div>
+        <span class="logo-text">Chile <span class="text-gradient-accent">Donaton</span></span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="cs-container page-content">
+    <div class="page-header">
+      <span class="section-label">Registro donante</span>
+      <h1 class="section-title">Únete como donante</h1>
+      <p class="section-subtitle">Crea tu cuenta para dar tu granito de arena.</p>
+    </div>
+
+    <div class="form-card cs-card">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="cs-label">Nombre</label>
+            <input class="cs-input" placeholder="Juan" [(ngModel)]="form.nombre" name="nombre" />
+          </div>
+          <!-- <div class="form-group">
+            <label class="cs-label">Apellido</label>
+            <input class="cs-input" placeholder="Pérez" [(ngModel)]="form.apellido" name="apellido" />
+          </div> -->
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="cs-label">RUT</label>
+            <input class="cs-input" placeholder="12.345.678-9" [(ngModel)]="form.rut" name="rut" />
+          </div>
+          <!-- <div class="form-group">
+            <label class="cs-label">Teléfono</label>
+            <input class="cs-input" placeholder="+56 9 1234 5678" [(ngModel)]="form.telefono" name="telefono" />
+          </div> -->
+        </div>
+        <div class="form-group">
+          <label class="cs-label">Correo electrónico</label>
+          <input class="cs-input" type="email" placeholder="tu@email.cl" [(ngModel)]="form.email" name="email" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="cs-label">Contraseña</label>
+            <input class="cs-input" type="password" placeholder="••••••••" [(ngModel)]="form.password" name="password" />
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Confirmar contraseña</label>
+            <input class="cs-input" type="password" placeholder="••••••••" [(ngModel)]="form.confirmar" name="confirmar" />
+          </div>
+        </div>
+        <button type="submit" class="btn-hero full-width">Crear cuenta donante</button>
+      </form>
+      <p class="login-link text-muted">
+        ¿Ya tienes cuenta? <a class="text-accent" (click)="goTo('/login')">Inicia sesión</a>
+      </p>
+    </div>
+  </div>
+</ion-content>

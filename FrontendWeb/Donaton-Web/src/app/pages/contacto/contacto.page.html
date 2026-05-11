@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="cs-container header-inner">
+      <div class="logo" (click)="goTo('/home')">
+        <div class="logo-icon bg-gradient-accent shadow-glow">❤️</div>
+        <span class="logo-text">Chile <span class="text-gradient-accent">Solidario</span></span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="cs-container contact-layout">
+    <!-- Info -->
+    <div class="contact-info">
+      <span class="section-label">Contáctanos</span>
+      <h1 class="section-title">Estamos para escucharte.</h1>
+      <p class="section-subtitle">
+        ¿Reportas una emergencia, quieres ser voluntario o tu empresa desea colaborar? Escríbenos.
+      </p>
+      <ul class="contact-data">
+        <li>✉️ ayuda@chilesolidario.cl</li>
+        <li>📞 600 600 1010</li>
+        <li>📍 Av. Apoquindo 4501, Santiago</li>
+      </ul>
+    </div>
+
+    <!-- Form -->
+    <div class="form-card cs-card">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <input class="cs-input" placeholder="Nombre completo" [(ngModel)]="form.nombre" name="nombre" />
+        </div>
+        <div class="form-group">
+          <input class="cs-input" type="email" placeholder="Email" [(ngModel)]="form.email" name="email" />
+        </div>
+        <div class="form-group">
+          <input class="cs-input" placeholder="Asunto" [(ngModel)]="form.asunto" name="asunto" />
+        </div>
+        <div class="form-group">
+          <textarea class="cs-textarea" rows="5" placeholder="Cuéntanos cómo podemos ayudar..." [(ngModel)]="form.mensaje" name="mensaje"></textarea>
+        </div>
+        <button type="submit" class="btn-hero full-width">Enviar mensaje</button>
+      </form>
+    </div>
+  </div>
+</ion-content>

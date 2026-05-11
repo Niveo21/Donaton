@@ -1,0 +1,108 @@
+.page-center {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 40px;
+}
+
+.auth-card-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  .auth-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-top: 16px;
+  }
+
+  p {
+    font-size: 0.875rem;
+    margin-top: 8px;
+  }
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.forgot-link {
+  display: flex;
+  justify-content: flex-end;
+  margin: 4px 0 20px;
+}
+
+.text-link {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: var(--cs-muted-foreground);
+  cursor: pointer;
+  padding: 0;
+
+  &:hover { color: var(--cs-foreground); }
+}
+
+.full-width { width: 100%; justify-content: center; }
+
+.auth-footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--cs-muted-foreground);
+  margin-top: 24px;
+
+  a {
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+// Header
+.header-inner {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .logo-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--cs-foreground);
+  }
+}

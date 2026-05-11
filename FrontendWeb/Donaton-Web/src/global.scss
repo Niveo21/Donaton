@@ -1,37 +1,272 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+// Chile Solidario Design System — variables loaded via theme/variables.scss
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
 
-/* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
 
-/* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+// ─── Base ────────────────────────────────────────────────────────────────────
+* {
+  box-sizing: border-box;
+}
 
-/* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+body {
+  font-family: 'Inter', var(--ion-font-family);
+  background-color: var(--cs-background);
+  color: var(--cs-foreground);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+h1, h2, h3, h4 {
+  font-family: 'Plus Jakarta Sans', var(--ion-font-family);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+// ─── Typography helpers ───────────────────────────────────────────────────────
+.text-gradient-accent {
+  background-image: var(--cs-gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-accent { color: var(--cs-accent) !important; }
+.text-muted  { color: var(--cs-muted-foreground) !important; }
+
+// ─── Backgrounds ─────────────────────────────────────────────────────────────
+.bg-gradient-hero    { background-image: var(--cs-gradient-hero); }
+.bg-gradient-primary { background-image: var(--cs-gradient-primary); }
+.bg-gradient-accent  { background-image: var(--cs-gradient-accent); }
+.bg-gradient-soft    { background-image: var(--cs-gradient-soft); }
+
+// ─── Shadows ─────────────────────────────────────────────────────────────────
+.shadow-elegant { box-shadow: var(--cs-shadow-elegant); }
+.shadow-glow    { box-shadow: var(--cs-shadow-glow); }
+.shadow-card    { box-shadow: var(--cs-shadow-card); }
+
+// ─── Transitions ─────────────────────────────────────────────────────────────
+.transition-smooth { transition: var(--cs-transition); }
+
+// ─── Animations ──────────────────────────────────────────────────────────────
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(224, 90, 43, 0.6); }
+  70%  { box-shadow: 0 0 0 16px rgba(224, 90, 43, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(224, 90, 43, 0); }
+}
+.animate-pulse-ring { animation: pulse-ring 2s infinite; }
+
+@keyframes float-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-float-up { animation: float-up 0.8s ease-out both; }
+
+// ─── Custom Card ─────────────────────────────────────────────────────────────
+.cs-card {
+  background: var(--cs-card);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  box-shadow: var(--cs-shadow-card);
+  overflow: hidden;
+  transition: var(--cs-transition);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--cs-shadow-elegant);
+  }
+}
+
+// ─── Buttons ─────────────────────────────────────────────────────────────────
+.btn-hero {
+  background: var(--cs-gradient-accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--cs-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--cs-shadow-glow);
+  }
+}
+
+.btn-outline-hero {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--cs-transition);
+
+  &:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.8);
+  }
+}
+
+.btn-primary {
+  background: var(--cs-gradient-primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: var(--cs-transition);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--cs-shadow-elegant);
+  }
+}
+
+// ─── Form Elements ───────────────────────────────────────────────────────────
+.cs-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--cs-border);
+  border-radius: 12px;
+  background: var(--cs-background);
+  color: var(--cs-foreground);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  transition: var(--cs-transition);
+  outline: none;
+
+  &:focus {
+    border-color: var(--cs-accent);
+  }
+
+  &::placeholder { color: var(--cs-muted-foreground); }
+}
+
+.cs-textarea {
+  @extend .cs-input;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.cs-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cs-foreground);
+  margin-bottom: 6px;
+}
+
+// ─── Progress Bar ────────────────────────────────────────────────────────────
+.cs-progress-wrap {
+  background: var(--cs-muted);
+  border-radius: 99px;
+  height: 8px;
+  overflow: hidden;
+
+  .cs-progress-bar {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--cs-gradient-accent);
+    transition: width 0.6s ease;
+  }
+}
+
+// ─── Section helpers ──────────────────────────────────────────────────────────
+.section-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cs-accent);
+}
+
+.section-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--cs-foreground);
+  margin-top: 12px;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--cs-muted-foreground);
+  line-height: 1.7;
+  margin-top: 16px;
+}
+
+// ─── Container ───────────────────────────────────────────────────────────────
+.cs-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// ─── Ionic overrides ─────────────────────────────────────────────────────────
+ion-content {
+  --background: var(--cs-background);
+}
+
+ion-toolbar {
+  --background: var(--ion-toolbar-background);
+  --border-color: var(--cs-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+ion-button {
+  --border-radius: 12px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+ion-card {
+  --background: var(--cs-card);
+  border-radius: var(--cs-radius);
+  box-shadow: var(--cs-shadow-card);
+  border: 1px solid var(--cs-border);
+  margin: 0;
+}
+
+ion-input, ion-textarea {
+  --background: var(--cs-background);
+  --color: var(--cs-foreground);
+  --placeholder-color: var(--cs-muted-foreground);
+  --border-color: var(--cs-border);
+  border: 2px solid var(--cs-border);
+  border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+// ─── Checkbox ────────────────────────────────────────────────────────────────
+.cs-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: var(--cs-foreground);
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--cs-accent);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}

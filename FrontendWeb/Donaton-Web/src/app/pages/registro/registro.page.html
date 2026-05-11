@@ -1,0 +1,44 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="cs-container header-inner">
+      <div class="logo" (click)="goTo('/home')">
+        <div class="logo-icon bg-gradient-accent shadow-glow">D</div>
+        <span class="logo-text">Chile <span class="text-gradient-accent">Donaton</span></span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="cs-container page-content">
+    <div class="page-header text-center">
+      <span class="section-label">Crea tu cuenta</span>
+      <h1 class="section-title">¿Cómo quieres ayudar?</h1>
+      <p class="section-subtitle">
+        Elige el tipo de cuenta que mejor se ajuste a ti. Cada perfil tiene herramientas pensadas para maximizar tu impacto.
+      </p>
+    </div>
+
+    <div class="roles-grid">
+      <div
+        *ngFor="let r of roles"
+        class="role-card cs-card"
+        (click)="goTo(r.path)"
+      >
+        <div class="role-icon shadow-glow" [ngClass]="r.gradient">
+          {{ r.icon }}
+        </div>
+        <h2>{{ r.title }}</h2>
+        <p class="text-muted role-desc">{{ r.desc }}</p>
+        <span class="role-cta text-accent">
+          Registrarme <span class="arrow">→</span>
+        </span>
+      </div>
+    </div>
+
+    <p class="login-link text-muted">
+      ¿Ya tienes cuenta?
+      <a class="text-accent" (click)="goTo('/login')"> Inicia sesión</a>
+    </p>
+  </div>
+</ion-content>

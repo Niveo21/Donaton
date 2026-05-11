@@ -1,0 +1,84 @@
+.header-inner {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  .logo-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+  .logo-text { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--cs-foreground); }
+}
+
+.page-content {
+  padding: 60px 20px;
+}
+
+.page-header {
+  max-width: 600px;
+  margin: 0 auto 56px;
+}
+
+.roles-grid {
+  display: grid;
+  gap: 24px;
+  @media (min-width: 768px) { grid-template-columns: repeat(3, 1fr); }
+}
+
+.role-card {
+  padding: 36px 28px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: var(--cs-transition);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--cs-shadow-glow);
+
+    .arrow { transform: translateX(4px); }
+  }
+
+  .role-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  .role-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-top: 10px;
+    flex: 1;
+  }
+
+  .role-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-top: 24px;
+
+    .arrow { transition: transform 0.3s ease; display: inline-block; }
+  }
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 48px;
+  font-size: 0.875rem;
+
+  a { font-weight: 600; cursor: pointer; text-decoration: underline; }
+}

@@ -1,0 +1,29 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="cs-container header-inner">
+      <div class="logo" (click)="goTo('/home')">
+        <div class="logo-icon bg-gradient-accent shadow-glow">❤️</div>
+        <span class="logo-text">Chile <span class="text-gradient-accent">Solidario</span></span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="cs-container page-content">
+    <span class="section-label">Nuestra historia</span>
+    <h1 class="section-title" style="max-width:700px; line-height:1.1;">
+      Chilenos ayudando a Chile, <span class="text-gradient-accent">desde 2010</span>.
+    </h1>
+    <p class="section-subtitle" style="max-width:640px; margin-top:24px;">
+      Nacimos tras el terremoto del 27F y desde entonces hemos estado en cada catástrofe del país: incendios en Valparaíso, aluviones en Atacama, inundaciones en el sur. Operamos con un equipo nacional y cientos de voluntarios en terreno.
+    </p>
+
+    <div class="stats-grid" style="margin-top:64px;">
+      <div *ngFor="let s of stats" class="stat-card cs-card">
+        <p class="stat-number text-gradient-accent">{{ s.n }}</p>
+        <p class="text-muted stat-label">{{ s.l }}</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

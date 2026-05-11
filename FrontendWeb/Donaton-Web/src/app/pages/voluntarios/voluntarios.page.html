@@ -1,0 +1,117 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="cs-container header-inner">
+      <div class="logo" (click)="goTo('/home')">
+        <div class="logo-icon bg-gradient-accent shadow-glow">❤️</div>
+        <span class="logo-text">Chile <span class="text-gradient-accent">Solidario</span></span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- Hero -->
+  <section class="vol-hero bg-gradient-hero">
+    <div class="cs-container text-center">
+      <div class="vol-hero-icon">🤲</div>
+      <h1>Sé voluntario en Chile</h1>
+      <p>
+        Cuando ocurre una catástrofe, cada par de manos cuenta. Inscríbete y te activaremos según tu ubicación y habilidades.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section-pad">
+    <div class="cs-container stats-grid">
+      <div *ngFor="let s of stats" class="stat-card cs-card text-center">
+        <span class="stat-icon">{{ s.icon }}</span>
+        <p class="stat-value">{{ s.value }}</p>
+        <p class="stat-label text-muted">{{ s.label }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form + Info -->
+  <section class="section-pad" style="padding-top:0">
+    <div class="cs-container vol-layout">
+      <div class="vol-info">
+        <span class="section-label">Inscripción voluntarios</span>
+        <h2 class="section-title">Regístrate hoy.</h2>
+        <p class="section-subtitle">
+          Completa el formulario y te contactaremos cuando exista una emergencia en tu región.
+        </p>
+        <ul class="benefits-list">
+          <li>✅ Capacitaciones gratuitas presenciales y online.</li>
+          <li>✅ Seguro de accidentes durante las activaciones.</li>
+          <li>✅ Certificado oficial de horas de voluntariado.</li>
+          <li>✅ Comunidad activa en las 16 regiones del país.</li>
+        </ul>
+      </div>
+
+      <div class="form-card cs-card">
+        <h3>Formulario de registro</h3>
+        <p class="text-muted" style="font-size:0.875rem; margin-top:6px;">Tus datos están protegidos.</p>
+
+        <form (ngSubmit)="onSubmit()" style="margin-top:24px;">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cs-label">Nombre</label>
+              <input class="cs-input" placeholder="Juan" [(ngModel)]="form.nombre" name="nombre" />
+            </div>
+            <div class="form-group">
+              <label class="cs-label">Apellido</label>
+              <input class="cs-input" placeholder="Pérez" [(ngModel)]="form.apellido" name="apellido" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cs-label">RUT</label>
+              <input class="cs-input" placeholder="12.345.678-9" [(ngModel)]="form.rut" name="rut" />
+            </div>
+            <div class="form-group">
+              <label class="cs-label">Edad</label>
+              <input class="cs-input" type="number" min="18" placeholder="25" [(ngModel)]="form.edad" name="edad" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Correo electrónico</label>
+            <input class="cs-input" type="email" placeholder="tu@email.cl" [(ngModel)]="form.email" name="email" />
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Teléfono</label>
+            <input class="cs-input" placeholder="+56 9 1234 5678" [(ngModel)]="form.telefono" name="telefono" />
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Región</label>
+            <input class="cs-input" placeholder="Valparaíso, Biobío, Metropolitana..." [(ngModel)]="form.region" name="region" />
+          </div>
+
+          <div class="form-group">
+            <label class="cs-label">Áreas de interés</label>
+            <div class="areas-grid">
+              <label *ngFor="let a of areas" class="cs-checkbox-label">
+                <input type="checkbox" [(ngModel)]="selectedAreas[a]" [name]="a" />
+                <span>{{ a }}</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="cs-label">Experiencia previa (opcional)</label>
+            <textarea class="cs-textarea" rows="3" placeholder="Cuéntanos brevemente tu experiencia o disponibilidad." [(ngModel)]="form.experiencia" name="experiencia"></textarea>
+          </div>
+
+          <label class="cs-checkbox-label" style="margin-bottom:20px; align-items:flex-start;">
+            <input type="checkbox" [(ngModel)]="form.terms" name="terms" style="margin-top:2px;" />
+            <span style="font-size:0.8rem; color:var(--cs-muted-foreground);">Acepto los términos y autorizo el uso de mis datos para coordinar activaciones de voluntariado.</span>
+          </label>
+
+          <button type="submit" class="btn-hero full-width">Quiero ser voluntario</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</ion-content>
