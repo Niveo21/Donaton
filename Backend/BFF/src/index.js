@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use('/donacion', donacionRoute);
 
-app.use('/register', registerRoute); // Descomentar cuando el archivo exista
+app.use('/usuario', registerRoute); // Descomentar cuando el archivo exista
 
 app.listen(3000, () => console.log('BFF corriendo en puerto 3000'));
 

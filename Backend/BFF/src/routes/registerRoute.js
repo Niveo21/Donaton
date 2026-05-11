@@ -9,7 +9,7 @@ router.use(cors());
 router.use(express.json());
 
 
-router.get('/', async (req, res) => {
+router.get('/listar', async (req, res) => {
     try {
        
         console.log("Consultando microservicio de Java...");
@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
 
 module.exports = router;
 
-router.post('/', async (req, res) => {
+router.post('/registro', async (req, res) => {
     try {
         const response = await axios.post('http://localhost:8084/registro', req.body);
         
@@ -50,5 +50,16 @@ router.post('/', async (req, res) => {
     }catch (error) {
         console.error("Error en el microservicio de registro:", error.message);
         res.status(500).json({ error: "No se pudo procesar el registro" });
+    }
+});
+
+router.post('/login', async (req, res) => {
+    try {
+        
+        const response = await axios.post('http://localhost:8084/login', req.body);
+        return res.status(200).json(response.data);
+    } catch (error) {
+        console.error("Error en el microservicio de login:", error.message);
+        res.status(401).json({ error: "Credenciales inválidas" });
     }
 });
