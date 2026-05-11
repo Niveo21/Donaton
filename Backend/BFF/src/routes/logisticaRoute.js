@@ -5,10 +5,7 @@ const router = express.Router();
 
 const LOGISTICA_URL = 'http://localhost:8081';
 
-// ─────────────────────────────────────────
 // ACOPIO
-// ─────────────────────────────────────────
-
 // GET /acopio
 router.get('/acopio', async (req, res) => {
     try {
@@ -29,11 +26,9 @@ router.post('/acopio', async (req, res) => {
         console.error("Error en Acopio POST:", error.message);
         res.status(500).json({ error: "Error al registrar acopio" });
     }
-});
-
-// ─────────────────────────────────────────
+})
 // ENVIO
-// ─────────────────────────────────────────
+
 
 // GET /envio
 router.get('/envio', async (req, res) => {
@@ -80,9 +75,9 @@ router.get('/envio/movimientos', async (req, res) => {
     }
 });
 
-// ─────────────────────────────────────────
+
 // INVENTARIO
-// ─────────────────────────────────────────
+
 
 // GET /inventario
 router.get('/inventario', async (req, res) => {
@@ -117,9 +112,8 @@ router.post('/inventario/actualizar', async (req, res) => {
     }
 });
 
-// ─────────────────────────────────────────
 // TRANSPORTE
-// ─────────────────────────────────────────
+
 
 // GET /transporte
 router.get('/transporte', async (req, res) => {
@@ -143,9 +137,9 @@ router.post('/transporte', async (req, res) => {
     }
 });
 
-// ─────────────────────────────────────────
+
 // VOLUNTARIO
-// ─────────────────────────────────────────
+
 
 // GET /voluntario
 router.get('/voluntario', async (req, res) => {
