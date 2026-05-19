@@ -223,7 +223,7 @@ ion-toolbar {
       position: absolute;
       top: 14px;
       left: 14px;
-      background: rgba(255,255,255,0.95);
+          background: #3b5bdb;
       border-radius: 99px;
       padding: 4px 12px;
       font-size: 0.75rem;
@@ -401,7 +401,7 @@ ion-toolbar {
 
 .impact-box {
   margin-top: 20px;
-  background: rgba(240,244,255,0.8);
+  background: #0f1529;
   border-radius: 12px;
   padding: 16px;
   font-size: 0.9rem;
@@ -414,6 +414,11 @@ ion-toolbar {
   font-size: 0.75rem;
   color: var(--cs-muted-foreground);
   margin-top: 12px;
+}
+
+.donation-info .section-title{
+  color: #3b5bdb;
+  
 }
 
 // ─── CTA section ────────────────────────────────────────────────────────────
@@ -447,7 +452,7 @@ ion-toolbar {
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
 .site-footer {
-  background: rgba(240,244,255,0.6);
+  --background: #0f1529;
   border-top: 1px solid var(--cs-border);
   padding-top: 56px;
 }

@@ -11,3 +11,76 @@
 .form-card { padding:36px; }
 .form-group { margin-bottom:16px; }
 .full-width { width:100%; justify-content:center; }
+
+
+ion-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .logo-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--cs-foreground);
+  }
+}
+
+.desktop-nav {
+  display: flex;
+  gap: 28px;
+
+  a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--cs-muted-foreground);
+    cursor: pointer;
+    transition: var(--cs-transition);
+
+    &:hover { color: var(--cs-foreground); }
+  }
+
+  @media (max-width: 768px) { display: none; }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .login-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--cs-muted-foreground);
+    cursor: pointer;
+    transition: var(--cs-transition);
+
+    &:hover { color: var(--cs-foreground); }
+
+    @media (max-width: 480px) { display: none; }
+  }
+}

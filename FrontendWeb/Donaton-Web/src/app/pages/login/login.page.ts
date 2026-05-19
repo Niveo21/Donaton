@@ -24,28 +24,37 @@ export class LoginPage {
 
   goTo(p: string) { this.navCtrl.navigateRoot(p); }
   onSubmit() {
+  if (this.email === '' || this.password === '') {
+    console.log("Por favor complete todos los campos");
+    return;
+  }
 
-    if (this.email === '' || this.password === '') {
-      console.log("Por favor complete todos los campos");
-      return;
-    }
+  const credentials = {
+    email: this.email,
+    password: this.password
+  };
 
-    const credentials = {
-      email: this.email,
-      password: this.password
-    };
-
-    this.http.post(this.apiUrl, credentials).subscribe({
-      next: (response: any) => {
+  this.http.post(this.apiUrl, credentials).subscribe({
+    next: (response: any) => {
+      
+      if (response === true) {
         console.log('Login exitoso:', response);
         
-        this.goTo('/home');
-      },
-      error: (error) => {
-        console.error('Error en el login:', error);
+     
         
+        this.goTo('/home');
+      } else {
+        
+        console.warn('Credenciales incorrectas según el servidor');
+        alert("Usuario o contraseña incorrectos");
       }
-    });
-  }
+    },
+    error: (error) => {
+      
+      console.error('Error de conexión o error 4xx/5xx:', error);
+      alert("Error al conectar con el servidor. Intente más tarde.");
+    }
+  });
+}
 }
 

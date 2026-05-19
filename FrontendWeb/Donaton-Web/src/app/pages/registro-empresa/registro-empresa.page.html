@@ -2,8 +2,21 @@
   <ion-toolbar>
     <div class="cs-container header-inner">
       <div class="logo" (click)="goTo('/home')">
-        <div class="logo-icon bg-gradient-accent shadow-glow">❤️</div>
-        <span class="logo-text">Chile <span class="text-gradient-accent">Solidario</span></span>
+        <div class="logo-icon bg-gradient-accent shadow-glow">D</div>
+        <span class="logo-text">Chile <span class="text-gradient-accent">Donaton</span></span>
+      </div>
+      <nav class="desktop-nav">
+        <a (click)="goTo('/home')">Inicio</a>
+        <a (click)="goTo('/emergencias')">Emergencias</a>
+        <a (click)="goTo('/voluntarios')">Voluntarios</a>
+        <a (click)="goTo('/nosotros')">Nosotros</a>
+        <a (click)="goTo('/contacto')">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <a class="login-link" (click)="goTo('/login')">Iniciar sesión</a>
+        <button class="btn-hero" style="padding: 10px 20px; font-size:0.875rem;" (click)="goTo('/registro')">
+          Registrarse
+        </button>
       </div>
     </div>
   </ion-toolbar>
@@ -53,7 +66,7 @@
         </div>
         <button type="submit" class="btn-hero full-width">Registrar empresa</button>
       </form>
-      <p class="login-link text-muted">
+      <p class="form-footer text-muted">
         ¿Ya tienes cuenta? <a class="text-accent" (click)="goTo('/login')">Inicia sesión</a>
       </p>
     </div>

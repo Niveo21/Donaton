@@ -27,3 +27,5 @@
 .form-row { display:grid; gap:16px; @media(min-width:480px){ grid-template-columns:1fr 1fr; } }
 .areas-grid { display:grid; gap:10px; margin-top:8px; @media(min-width:480px){ grid-template-columns:1fr 1fr; } }
 .full-width { width:100%; justify-content:center; }
+
+.section-pad { padding:40px 20px; }
