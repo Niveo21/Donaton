@@ -3,6 +3,7 @@ package com.example.Donaton_Registro.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,9 +30,13 @@ public class RegistroController {
     }
 
     @PostMapping("/login")
-    public boolean validarLogin(@RequestBody Registro registro) {
-        return registroService.validarLogin(registro.getEmail(), registro.getPassword());
+    public ResponseEntity<String> validarLogin(@RequestBody Registro registro) {
+    String resultado = registroService.validarLogin(registro.getEmail(), registro.getPassword());
+    if ("ok".equals(resultado)) {
+        return ResponseEntity.ok("Login exitoso");
     }
+    return ResponseEntity.status(401).body("Credenciales incorrectas"); 
+}
 
     @GetMapping
     public List<Registro> obtenerRegistros() {

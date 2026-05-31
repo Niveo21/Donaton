@@ -285,6 +285,28 @@ h1, h2, h3, h4 {
   }
 }
 
+// ─── Toast ───────────────────────────────────────────────────────────────────
+ion-toast.toast-bottom-right {
+  --start: auto;
+  --end: 16px;
+  --width: auto;
+  --max-width: 360px;
+  --border-radius: 12px;
+  --color: #ffffff;
+  
+  // Forzamos un z-index alto por si acaso
+  z-index: 99999; 
+}
+
+// Clases de color independientes (Evitamos usar .ion-color-X que se rompe con tus variables)
+ion-toast.toast-danger {
+  --background: #dc2626 !important;
+}
+
+ion-toast.toast-success {
+  --background: #16a34a !important;
+}
+
 // ─── Ionic overrides ─────────────────────────────────────────────────────────
 ion-content {
   --background: var(--cs-background);

@@ -14,7 +14,7 @@ import { NavController } from '@ionic/angular';
   
 })
 export class RegistroEmpresaPage {
-  form = { razon:'', rut:'', giro:'', contacto:'', email:'', telefono:'', web:'' };
+  form = { razon:'', rut:'', giro:'', contacto:'', email:'', telefono:'', password:'' };
   constructor(private router: Router, private navCtrl: NavController) {}
   goTo(p: string) { this.navCtrl.navigateRoot(p); }
   onSubmit() {}

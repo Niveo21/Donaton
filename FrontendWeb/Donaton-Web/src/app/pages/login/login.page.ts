@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-
-
-
-import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -11,50 +7,65 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: false,
-
-
 })
 export class LoginPage {
-  email = ''; password = '';
+  email = ''; 
+  password = '';
+  
   private apiUrl = 'http://localhost:8085/usuario/login';
 
+  constructor(
+    private navCtrl: NavController, 
+    private http: HttpClient,
+    private toastCtrl: ToastController
+  ) { }
 
-  constructor(private router: Router, private navCtrl: NavController, private http: HttpClient) { }
-
-
-  goTo(p: string) { this.navCtrl.navigateRoot(p); }
-  onSubmit() {
-  if (this.email === '' || this.password === '') {
-    console.log("Por favor complete todos los campos");
-    return;
+  goTo(p: string) { 
+    this.navCtrl.navigateRoot(p); 
   }
 
-  const credentials = {
-    email: this.email,
-    password: this.password
-  };
+  private async showToast(message: string, color: 'success' | 'danger') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'bottom',
+      cssClass: `toast-bottom-right toast-${color}`,
+    });
+    await toast.present();
+  }
 
-  this.http.post(this.apiUrl, credentials).subscribe({
-    next: (response: any) => {
-      
-      if (response === true) {
-        console.log('Login exitoso:', response);
+  async onSubmit() {
+    if (this.email.trim() === '' || this.password.trim() === '') {
+      await this.showToast('Por favor, complete todos los campos.', 'danger');
+      return;
+    }
+
+    const credentials = {
+      email: this.email,
+      password: this.password
+    };
+
+    
+    this.http.post(this.apiUrl, credentials, { responseType: 'text' }).subscribe({
+      next: async (response) => {
+        //Estado 200 = ok
+        console.log('Servidor dice:', response);
+        await this.showToast('¡Inicio de sesión exitoso!', 'success');
         
-     
         
         this.goTo('/home');
-      } else {
-        
-        console.warn('Credenciales incorrectas según el servidor');
-        alert("Usuario o contraseña incorrectos");
-      }
-    },
-    error: (error) => {
-      
-      console.error('Error de conexión o error 4xx/5xx:', error);
-      alert("Error al conectar con el servidor. Intente más tarde.");
-    }
-  });
-}
-}
+      },
+      error: async (error) => {
+        console.error('Error en el login:', error);
 
+        
+        if (error.status === 401) {
+          await this.showToast('Correo o contraseña incorrectos.', 'danger');
+        } else {
+          // Cualquier otro error (ej: backend apagado, error 500, etc.)
+          await this.showToast('Error al conectar con el servidor. Intente más tarde.', 'danger');
+        }
+      }
+    });
+  }
+}
