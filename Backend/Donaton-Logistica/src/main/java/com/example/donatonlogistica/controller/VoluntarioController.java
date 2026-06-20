@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.donatonlogistica.dto.VoluntarioDTO;
 import com.example.donatonlogistica.model.Voluntario;
 import com.example.donatonlogistica.service.VoluntarioService;
 
@@ -23,7 +24,7 @@ public class VoluntarioController {
     private VoluntarioService voluntarioService;
 
     @GetMapping
-    public List<Voluntario> obtenerVoluntarios(){
+    public List<VoluntarioDTO> obtenerVoluntarios(){
         return voluntarioService.obtenerVoluntarios();
     }
 
@@ -39,22 +40,22 @@ public class VoluntarioController {
     }
 
     @PutMapping("/{rut}/transporte/{transporteId}")
-    public Voluntario asignarTransporte(@PathVariable String rut, @PathVariable int transporteId) {
+    public VoluntarioDTO asignarTransporte(@PathVariable String rut, @PathVariable int transporteId) {
         return voluntarioService.asignarTransporte(rut, transporteId);
     }
 
     @PutMapping("/{rut}/acopio/{acopioId}")
-    public Voluntario asignarAcopio(@PathVariable String rut, @PathVariable int acopioId) {
+    public VoluntarioDTO asignarAcopio(@PathVariable String rut, @PathVariable int acopioId) {
         return voluntarioService.asignarAcopio(rut, acopioId);
     }
 
     @GetMapping("/transporte/{transporteId}")
-    public List<Voluntario> obtenerPorTransporte(@PathVariable int transporteId) {
+    public List<VoluntarioDTO> obtenerPorTransporte(@PathVariable int transporteId) {
         return voluntarioService.obtenerPorTransporte(transporteId);
     }
 
     @GetMapping("/acopio/{acopioId}")
-    public List<Voluntario> obtenerPorAcopio(@PathVariable int acopioId) {
+    public List<VoluntarioDTO> obtenerPorAcopio(@PathVariable int acopioId) {
         return voluntarioService.obtenerPorAcopio(acopioId);
     }
 }

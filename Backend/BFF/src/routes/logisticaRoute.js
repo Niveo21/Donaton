@@ -4,12 +4,14 @@ const axios = require('axios');
 const router = express.Router();
 
 const LOGISTICA_URL = 'http://localhost:8081';
+const TRANSPORTE_URL = 'http://localhost:8086';
+const ACOPIO_URL = 'http://localhost:8087';
 
 // ACOPIO
 // GET /acopio
 router.get('/acopio', async (req, res) => {
     try {
-        const response = await axios.get(`${LOGISTICA_URL}/acopio`);
+        const response = await axios.get(`${ACOPIO_URL}/acopio`);
         res.json(response.data);
     } catch (error) {
         console.error("Error en Acopio GET:", error.message);
@@ -20,7 +22,7 @@ router.get('/acopio', async (req, res) => {
 // POST /acopio
 router.post('/acopio', async (req, res) => {
     try {
-        const response = await axios.post(`${LOGISTICA_URL}/acopio`, req.body);
+        const response = await axios.post(`${ACOPIO_URL}/acopio`, req.body);
         return res.status(201).json({ mensaje: response.data });
     } catch (error) {
         console.error("Error en Acopio POST:", error.message);
@@ -118,7 +120,7 @@ router.post('/inventario/actualizar', async (req, res) => {
 // GET /transporte
 router.get('/transporte', async (req, res) => {
     try {
-        const response = await axios.get(`${LOGISTICA_URL}/transporte`);
+        const response = await axios.get(`${TRANSPORTE_URL}/transporte`);
         res.json(response.data);
     } catch (error) {
         console.error("Error en Transporte GET:", error.message);
@@ -129,7 +131,7 @@ router.get('/transporte', async (req, res) => {
 // POST /transporte
 router.post('/transporte', async (req, res) => {
     try {
-        const response = await axios.post(`${LOGISTICA_URL}/transporte`, req.body);
+        const response = await axios.post(`${TRANSPORTE_URL}/transporte`, req.body);
         return res.status(201).json({ mensaje: response.data });
     } catch (error) {
         console.error("Error en Transporte POST:", error.message);

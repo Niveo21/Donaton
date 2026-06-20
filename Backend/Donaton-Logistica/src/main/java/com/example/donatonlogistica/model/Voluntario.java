@@ -1,10 +1,7 @@
 package com.example.donatonlogistica.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Voluntario {
@@ -15,15 +12,10 @@ public class Voluntario {
     private String email;
     private String rol;
 
-    @ManyToOne
-    @JoinColumn(name = "transporte_id", nullable = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Transporte transporte;
-
-    @ManyToOne
-    @JoinColumn(name = "acopio_id", nullable = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Acopio acopio;
+    // Transporte y Acopio viven en sus propios microservicios, por eso
+    // solo se guarda el id en vez de una relación JPA entre bases distintas.
+    private Integer transporteId;
+    private Integer acopioId;
 
     public Voluntario() {
     }
@@ -67,19 +59,19 @@ public class Voluntario {
         this.rol = rol;
     }
 
-    public Transporte getTransporte() {
-        return transporte;
+    public Integer getTransporteId() {
+        return transporteId;
     }
 
-    public void setTransporte(Transporte transporte) {
-        this.transporte = transporte;
+    public void setTransporteId(Integer transporteId) {
+        this.transporteId = transporteId;
     }
 
-    public Acopio getAcopio() {
-        return acopio;
+    public Integer getAcopioId() {
+        return acopioId;
     }
 
-    public void setAcopio(Acopio acopio) {
-        this.acopio = acopio;
+    public void setAcopioId(Integer acopioId) {
+        this.acopioId = acopioId;
     }
 }

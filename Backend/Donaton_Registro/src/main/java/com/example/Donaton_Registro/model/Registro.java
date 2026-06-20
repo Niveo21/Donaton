@@ -33,14 +33,14 @@ public class Registro {
     private String telefono;
     private String giro;
     private String razonSocial;
-    private int edad;
-    private String Region;
+    private Integer edad;
+    private String region;
      
 
     public Registro() {
     }
 
-    public Registro(String rut, String nombre, String email, String password, String rol, String telefono, String giro, String razonSocial, int edad, String region) {
+    public Registro(String rut, String nombre, String email, String password, String rol, String telefono, String giro, String razonSocial, Integer edad, String region) {
         this.rut = rut;
         this.nombre = nombre;
         this.email = email;
@@ -50,7 +50,7 @@ public class Registro {
         this.giro = giro;
         this.razonSocial = razonSocial;
         this.edad = edad;
-        this.Region = region;
+        this.region = region;
     }
 
     public String getRut() {
@@ -117,20 +117,20 @@ public class Registro {
         this.razonSocial = razonSocial;
     }
 
-    public int getEdad() {
+    public Integer getEdad() {
         return edad;
     }
 
-    public void setEdad(int edad) {
+    public void setEdad(Integer edad) {
         this.edad = edad;
     }
 
     public String getRegion() {
-        return Region;
+        return region;
     }
 
     public void setRegion(String region) {
-        Region = region;
+        this.region = region;
     }
 
     

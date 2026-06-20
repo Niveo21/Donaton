@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import com.example.donatonlogistica.model.Acopio;
-import com.example.donatonlogistica.model.Transporte;
+import com.example.donatonlogistica.dto.AcopioDTO;
+import com.example.donatonlogistica.dto.TransporteDTO;
+import com.example.donatonlogistica.dto.VoluntarioDTO;
 import com.example.donatonlogistica.model.Voluntario;
-import com.example.donatonlogistica.repository.AcopioRepository;
-import com.example.donatonlogistica.repository.TransporteRepository;
 import com.example.donatonlogistica.repository.VoluntarioRepository;
 
 
@@ -20,42 +20,76 @@ public class VoluntarioService {
     private VoluntarioRepository voluntarioRepository;
 
     @Autowired
-    private TransporteRepository transporteRepository;
-
-    @Autowired
-    private AcopioRepository acopioRepository;
+    private RestTemplate restTemplate;
 
     public void almacenarVoluntario(Voluntario voluntario) {
         voluntarioRepository.save(voluntario);
     }
 
-    public List<Voluntario> obtenerVoluntarios() {
-        return voluntarioRepository.findAll();
+    public List<VoluntarioDTO> obtenerVoluntarios() {
+        return voluntarioRepository.findAll().stream()
+                .map(this::enriquecer)
+                .toList();
     }
 
-    public Voluntario asignarTransporte(String rut, int transporteId) {
+    public VoluntarioDTO asignarTransporte(String rut, int transporteId) {
         Voluntario voluntario = voluntarioRepository.findById(rut)
                 .orElseThrow(() -> new IllegalArgumentException("Voluntario no encontrado: " + rut));
-        Transporte transporte = transporteRepository.findById(transporteId)
-                .orElseThrow(() -> new IllegalArgumentException("Transporte no encontrado: " + transporteId));
-        voluntario.setTransporte(transporte);
-        return voluntarioRepository.save(voluntario);
+        // Transporte ahora vive en su propio microservicio; solo guardamos el id.
+        voluntario.setTransporteId(transporteId);
+        Voluntario guardado = voluntarioRepository.save(voluntario);
+        return enriquecer(guardado);
     }
 
-    public Voluntario asignarAcopio(String rut, int acopioId) {
+    public VoluntarioDTO asignarAcopio(String rut, int acopioId) {
         Voluntario voluntario = voluntarioRepository.findById(rut)
                 .orElseThrow(() -> new IllegalArgumentException("Voluntario no encontrado: " + rut));
-        Acopio acopio = acopioRepository.findById(acopioId)
-                .orElseThrow(() -> new IllegalArgumentException("Acopio no encontrado: " + acopioId));
-        voluntario.setAcopio(acopio);
-        return voluntarioRepository.save(voluntario);
+        // Acopio ahora vive en su propio microservicio; solo guardamos el id.
+        voluntario.setAcopioId(acopioId);
+        Voluntario guardado = voluntarioRepository.save(voluntario);
+        return enriquecer(guardado);
     }
 
-    public List<Voluntario> obtenerPorTransporte(int transporteId) {
-        return voluntarioRepository.findByTransporteId(transporteId);
+    public List<VoluntarioDTO> obtenerPorTransporte(int transporteId) {
+        return voluntarioRepository.findByTransporteId(transporteId).stream()
+                .map(this::enriquecer)
+                .toList();
     }
 
-    public List<Voluntario> obtenerPorAcopio(int acopioId) {
-        return voluntarioRepository.findByAcopioId(acopioId);
+    public List<VoluntarioDTO> obtenerPorAcopio(int acopioId) {
+        return voluntarioRepository.findByAcopioId(acopioId).stream()
+                .map(this::enriquecer)
+                .toList();
+    }
+
+    private VoluntarioDTO enriquecer(Voluntario voluntario) {
+        VoluntarioDTO dto = new VoluntarioDTO(voluntario);
+        if (voluntario.getTransporteId() != null) {
+            dto.setTransporte(resolverTransporte(voluntario.getTransporteId()));
+        }
+        if (voluntario.getAcopioId() != null) {
+            dto.setAcopio(resolverAcopio(voluntario.getAcopioId()));
+        }
+        return dto;
+    }
+
+    private TransporteDTO resolverTransporte(int transporteId) {
+        try {
+            String url = "http://DONATON-TRANSPORTE/transporte/" + transporteId;
+            return restTemplate.getForObject(url, TransporteDTO.class);
+        } catch (Exception e) {
+            System.out.println("Aviso: no se pudo obtener el transporte " + transporteId + ": " + e.getMessage());
+            return null;
+        }
+    }
+
+    private AcopioDTO resolverAcopio(int acopioId) {
+        try {
+            String url = "http://DONATON-ACOPIO/acopio/" + acopioId;
+            return restTemplate.getForObject(url, AcopioDTO.class);
+        } catch (Exception e) {
+            System.out.println("Aviso: no se pudo obtener el acopio " + acopioId + ": " + e.getMessage());
+            return null;
+        }
     }
 }

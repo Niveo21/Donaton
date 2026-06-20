@@ -10,13 +10,10 @@ public class Envio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "transporte_id", nullable = false)
-    private Transporte transporte;
-
-    @ManyToOne
-    @JoinColumn(name = "acopio_destino_id", nullable = false)
-    private Acopio acopioDestino;
+    // Transporte y Acopio viven en sus propios microservicios, por eso
+    // solo se guarda el id en vez de una relación JPA entre bases distintas.
+    private int transporteId;
+    private int acopioDestinoId;
 
     private String tipoRecurso;
     private int cantidad;
@@ -25,9 +22,9 @@ public class Envio {
 
     public Envio() {}
 
-    public Envio(Transporte transporte, Acopio acopioDestino, String tipoRecurso, int cantidad, LocalDateTime fechaEnvio, String estado) {
-        this.transporte = transporte;
-        this.acopioDestino = acopioDestino;
+    public Envio(int transporteId, int acopioDestinoId, String tipoRecurso, int cantidad, LocalDateTime fechaEnvio, String estado) {
+        this.transporteId = transporteId;
+        this.acopioDestinoId = acopioDestinoId;
         this.tipoRecurso = tipoRecurso;
         this.cantidad = cantidad;
         this.fechaEnvio = fechaEnvio;
@@ -42,20 +39,20 @@ public class Envio {
         this.id = id;
     }
 
-    public Transporte getTransporte() {
-        return transporte;
+    public int getTransporteId() {
+        return transporteId;
     }
 
-    public void setTransporte(Transporte transporte) {
-        this.transporte = transporte;
+    public void setTransporteId(int transporteId) {
+        this.transporteId = transporteId;
     }
 
-    public Acopio getAcopioDestino() {
-        return acopioDestino;
+    public int getAcopioDestinoId() {
+        return acopioDestinoId;
     }
 
-    public void setAcopioDestino(Acopio acopioDestino) {
-        this.acopioDestino = acopioDestino;
+    public void setAcopioDestinoId(int acopioDestinoId) {
+        this.acopioDestinoId = acopioDestinoId;
     }
 
     public String getTipoRecurso() {

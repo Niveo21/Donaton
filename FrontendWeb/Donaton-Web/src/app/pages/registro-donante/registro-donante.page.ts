@@ -65,11 +65,12 @@ export class RegistroDonantePage {
 
     this.http.post(this.apiUrl, data, { responseType: 'text' }).subscribe({
       next: async (response) => {
-        if (response === 'Registro almacenado correctamente') {
+        const texto = response.replace(/"/g, '').trim();
+        if (texto === 'Registro almacenado correctamente') {
           await this.showToast('¡Registro exitoso! Bienvenido a Donaton.', 'success');
           setTimeout(() => this.goTo('/login'), 2000);
         } else {
-          await this.showToast(response, 'danger');
+          await this.showToast(texto, 'danger');
         }
       },
       error: async () => {

@@ -1,6 +1,6 @@
 package com.example.donatonlogistica.controller;
 
-import com.example.donatonlogistica.model.Envio;
+import com.example.donatonlogistica.dto.EnvioDTO;
 import com.example.donatonlogistica.model.MovimientoInventario;
 import com.example.donatonlogistica.service.EnvioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class EnvioController {
             String tipoRecurso = (String) body.get("tipoRecurso");
             int cantidad = (int) body.get("cantidad");
 
-            Envio envio = envioService.crearEnvio(transporteId, acopioId, tipoRecurso, cantidad);
+            EnvioDTO envio = envioService.crearEnvio(transporteId, acopioId, tipoRecurso, cantidad);
             return ResponseEntity.ok(envio);
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -33,7 +33,7 @@ public class EnvioController {
     }
 
     @GetMapping
-    public List<Envio> obtenerEnvios() {
+    public List<EnvioDTO> obtenerEnvios() {
         return envioService.obtenerEnvios();
     }
 
