@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
+import com.example.Donaton_Registro.dto.LoginResponse;
 import com.example.Donaton_Registro.model.Registro;
 import com.example.Donaton_Registro.repository.RegistroRepository;
 
@@ -19,6 +20,9 @@ public class RegistroService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private AuthClientService authClient;
 
     public String almacenarRegistro(Registro registro) {
 
@@ -58,12 +62,13 @@ public class RegistroService {
     }
 
 
-    public String validarLogin(String email, String password) {
+    public LoginResponse login(String email, String password) {
         Registro registro = registroRepository.findByEmail(email).orElse(null);
-        if (registro != null && registro.getPassword().equals(password)) {
-            return "ok";
+        if (registro == null || !registro.getPassword().equals(password)) {
+            return null;
         }
-        return "error";
+        String token = authClient.generarToken(registro.getRut(), registro.getRol());
+        return new LoginResponse(registro.getRut(), registro.getNombre(), registro.getEmail(), registro.getRol(), token);
     }
 
 

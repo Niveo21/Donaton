@@ -21,6 +21,9 @@ public class DonacionService {
     @Autowired
     private LogisticaBreakerService logisticaClient;
 
+    @Autowired
+    private PagoClientService pagoClient;
+
     public List<Donacion> obtenerDonaciones() {
         return donacionRepository.findAll();
     }
@@ -52,9 +55,15 @@ public class DonacionService {
         // Guardar UNA SOLA VEZ en la BD
         Donacion donacionGuardada = donacionRepository.save(entidad);
 
-        // 4. Solo notificar a Logística si es un recurso físico
+        // 4. Si es dinero, se procesa el pago y se actualiza el estado según el resultado
+        if ("DINERO".equals(donacionBase.getTipoDonacion())) {
+            boolean aprobado = pagoClient.procesarPago(donacionGuardada.getId(), request);
+            donacionGuardada.setEstado(aprobado ? "Pago aprobado" : "Pago rechazado");
+            donacionGuardada = donacionRepository.save(donacionGuardada);
+        }
+        // 5. Solo notificar a Logística si es un recurso físico
         //    El Circuit Breaker funciona porque LogisticaClient es otro @Service (otro proxy de Spring) basicamente la informacion no terminaba de llegar correctamente al circuitbreaker
-        if (donacionBase.requiereLogistica()) {
+        else if (donacionBase.requiereLogistica()) {
             logisticaClient.notificarLogistica(donacionGuardada);
         }
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Donaton_Registro.dto.LoginResponse;
 import com.example.Donaton_Registro.model.Registro;
 import com.example.Donaton_Registro.service.RegistroService;
 
@@ -30,13 +31,13 @@ public class RegistroController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> validarLogin(@RequestBody Registro registro) {
-    String resultado = registroService.validarLogin(registro.getEmail(), registro.getPassword());
-    if ("ok".equals(resultado)) {
-        return ResponseEntity.ok("Login exitoso");
+    public ResponseEntity<?> validarLogin(@RequestBody Registro registro) {
+        LoginResponse resultado = registroService.login(registro.getEmail(), registro.getPassword());
+        if (resultado == null) {
+            return ResponseEntity.status(401).body("Credenciales incorrectas");
+        }
+        return ResponseEntity.ok(resultado);
     }
-    return ResponseEntity.status(401).body("Credenciales incorrectas"); 
-}
 
     @GetMapping
     public List<Registro> obtenerRegistros() {

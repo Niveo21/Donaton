@@ -29,6 +29,7 @@ public class DonacionRequest {
     private double monto;
     private String moneda;
     private String metodoPago;
+    private String numeroTarjeta;
 
     // Campos para INSUMO_HIGIENE
     private String categoria; // "personal" o "hogar"
@@ -126,6 +127,14 @@ public class DonacionRequest {
 
     public void setMetodoPago(String metodoPago) {
         this.metodoPago = metodoPago;
+    }
+
+    public String getNumeroTarjeta() {
+        return numeroTarjeta;
+    }
+
+    public void setNumeroTarjeta(String numeroTarjeta) {
+        this.numeroTarjeta = numeroTarjeta;
     }
 
     public String getCategoria() {
