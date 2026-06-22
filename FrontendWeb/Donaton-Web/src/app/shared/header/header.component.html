@@ -1,0 +1,45 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="cs-container header-inner">
+      <!-- Logo -->
+      <div class="logo" (click)="goTo('/home')">
+        <div class="logo-icon bg-gradient-accent shadow-glow">{{ logoIcon }}</div>
+        <span class="logo-text">{{ logoPrefix }} <span class="text-gradient-accent">{{ logoText }}</span></span>
+      </div>
+      <!-- Nav desktop -->
+      <nav class="desktop-nav">
+        <a (click)="goTo('/home')">Inicio</a>
+        <a (click)="goTo('/emergencias')">Emergencias</a>
+        <a (click)="goTo('/voluntarios')">Voluntarios</a>
+        <a (click)="goTo('/nosotros')">Nosotros</a>
+        <a (click)="goTo('/contacto')">Contacto</a>
+      </nav>
+
+      <!-- Visitante: no ha iniciado sesión -->
+      <div class="header-actions" *ngIf="!(usuario$ | async)">
+        <a class="login-link" (click)="goTo('/login')">Iniciar sesión</a>
+        <button class="btn-hero" style="padding: 10px 20px; font-size:0.875rem;" (click)="goTo('/registro')">
+          Registrarse
+        </button>
+      </div>
+
+      <!-- Usuario logueado -->
+      <div class="user-menu" *ngIf="usuario$ | async as usuario">
+        <div class="user-trigger" (click)="toggleMenu($event)">
+          <div class="user-icon">
+            <ion-icon name="person-sharp"></ion-icon>
+          </div>
+          <span class="user-name">{{ usuario.nombre }}</span>
+        </div>
+
+        <ion-popover [isOpen]="menuAbierto" [event]="popoverEvent" (didDismiss)="menuAbierto = false" side="bottom" alignment="end">
+          <ng-template>
+            <ion-list lines="none">
+              <ion-item button (click)="cerrarSesion()">Cerrar sesión</ion-item>
+            </ion-list>
+          </ng-template>
+        </ion-popover>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>

@@ -17,7 +17,14 @@ public class Donacion {
      private LocalDateTime fechaDonacion;
      private String estado;
      private String tipoDonacion;
-     
+
+     // Datos de entrega (solo aplican a donaciones de items físicos)
+     private String nombreSolicitante;
+     private String metodoEntrega; // "ACOPIO" o "DOMICILIO"
+     private String direccionRetiro;
+     private String comuna;
+     private String telefonoContacto;
+
 
         public Donacion() {
         }
@@ -85,6 +92,46 @@ public class Donacion {
 
         public void setTipoDonacion(String tipoDonacion) {
             this.tipoDonacion = tipoDonacion;
+        }
+
+        public String getNombreSolicitante() {
+            return nombreSolicitante;
+        }
+
+        public void setNombreSolicitante(String nombreSolicitante) {
+            this.nombreSolicitante = nombreSolicitante;
+        }
+
+        public String getMetodoEntrega() {
+            return metodoEntrega;
+        }
+
+        public void setMetodoEntrega(String metodoEntrega) {
+            this.metodoEntrega = metodoEntrega;
+        }
+
+        public String getDireccionRetiro() {
+            return direccionRetiro;
+        }
+
+        public void setDireccionRetiro(String direccionRetiro) {
+            this.direccionRetiro = direccionRetiro;
+        }
+
+        public String getComuna() {
+            return comuna;
+        }
+
+        public void setComuna(String comuna) {
+            this.comuna = comuna;
+        }
+
+        public String getTelefonoContacto() {
+            return telefonoContacto;
+        }
+
+        public void setTelefonoContacto(String telefonoContacto) {
+            this.telefonoContacto = telefonoContacto;
         }
 
 }

@@ -51,6 +51,11 @@ public class DonacionService {
         entidad.setUnidadMedida(donacionBase.getUnidadMedida());
         entidad.setFechaDonacion(LocalDateTime.now());
         entidad.setEstado("Recibida");
+        entidad.setNombreSolicitante(request.getNombreSolicitante());
+        entidad.setMetodoEntrega(request.getMetodoEntrega());
+        entidad.setDireccionRetiro(request.getDireccionRetiro());
+        entidad.setComuna(request.getComuna());
+        entidad.setTelefonoContacto(request.getTelefonoContacto());
 
         // Guardar UNA SOLA VEZ en la BD
         Donacion donacionGuardada = donacionRepository.save(entidad);

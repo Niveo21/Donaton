@@ -1,26 +1,4 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <div class="cs-container header-inner">
-      <div class="logo" (click)="goTo('/home')">
-        <div class="logo-icon bg-gradient-accent shadow-glow">D</div>
-        <span class="logo-text">Chile <span class="text-gradient-accent">Donaton</span></span>
-      </div>
-      <nav class="desktop-nav">
-        <a (click)="goTo('/home')">Inicio</a>
-        <a (click)="goTo('/emergencias')">Emergencias</a>
-        <a (click)="goTo('/voluntarios')">Voluntarios</a>
-        <a (click)="goTo('/nosotros')">Nosotros</a>
-        <a (click)="goTo('/contacto')">Contacto</a>
-      </nav>
-      <div class="header-actions">
-        <a class="login-link" (click)="goTo('/login')">Iniciar sesión</a>
-        <button class="btn-hero" style="padding: 10px 20px; font-size:0.875rem;" (click)="goTo('/registro')">
-          Registrarse
-        </button>
-      </div>
-    </div>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
 <ion-content [fullscreen]="true">
   <div class="cs-container page-content">
@@ -30,29 +8,23 @@
       Estas son las campañas que están recibiendo aportes en este momento.
     </p>
 
-    <div class="cards-grid" style="margin-top:48px;">
-      <div *ngFor="let e of emergencies" class="cs-card emergency-card">
+    <div class="cards-grid" style="margin-top:48px;" *ngIf="emergencies.length > 0">
+      <div *ngFor="let e of emergencies" class="cs-card emergency-card" [class.urgente-pulse]="e.urgente">
         <div class="card-img-wrap">
-          <img [src]="e.img" [alt]="e.title" loading="lazy" />
+          <img [src]="imagenDe(e.tipoEmergencia)" [alt]="e.titulo || e.nombre" loading="lazy" />
           <div class="card-img-overlay"></div>
-          <span class="card-region">📍 {{ e.region }}</span>
-          <span class="card-icon-badge">{{ e.icon }}</span>
+          <span class="card-region" *ngIf="e.region">📍 {{ e.region }}</span>
+          <span class="card-icon-badge">{{ iconoDe(e.tipoEmergencia) }}</span>
         </div>
         <div class="card-body">
-          <h3>{{ e.title }}</h3>
-          <p class="card-desc text-muted">{{ e.desc }}</p>
-          <div class="progress-section">
-            <div class="cs-progress-wrap">
-              <div class="cs-progress-bar" [style.width.%]="getPercent(e)"></div>
-            </div>
-            <div class="progress-labels">
-              <span style="font-weight:700;">{{ formatCLP(e.raised) }}</span>
-              <span class="text-muted">de {{ formatCLP(e.goal) }}</span>
-            </div>
-          </div>
-          <button class="btn-primary" (click)="goTo('/home')">Aportar a esta causa</button>
+          <h3>{{ e.titulo || e.nombre }}</h3>
+          <p class="card-desc text-muted">{{ e.descripcion }}</p>
+          <button class="btn-primary" (click)="goTo('/donar')">Aportar a esta causa</button>
         </div>
       </div>
     </div>
+    <p class="text-muted" style="margin-top:48px;" *ngIf="emergencies.length === 0">
+      No hay emergencias activas en este momento.
+    </p>
   </div>
 </ion-content>

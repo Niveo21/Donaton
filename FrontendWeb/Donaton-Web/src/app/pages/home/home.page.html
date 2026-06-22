@@ -1,29 +1,4 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <div class="cs-container header-inner">
-      <!-- Logo -->
-      <div class="logo" (click)="goTo('/home')">
-        <div class="logo-icon bg-gradient-accent shadow-glow">D</div>
-        <span class="logo-text">Chile <span class="text-gradient-accent">Donaton</span></span>
-      </div>
-      <!-- Nav desktop -->
-      <nav class="desktop-nav">
-        <a (click)="goTo('/home')">Inicio</a>
-        <a (click)="goTo('/emergencias')">Emergencias</a>
-        <a (click)="goTo('/voluntarios')">Voluntarios</a>
-        <a (click)="goTo('/nosotros')">Nosotros</a>
-        <a (click)="goTo('/contacto')">Contacto</a>
-      </nav>
-      <!-- Auth buttons -->
-      <div class="header-actions">
-        <a class="login-link" (click)="goTo('/login')">Iniciar sesión</a>
-        <button class="btn-hero" style="padding: 10px 20px; font-size:0.875rem;" (click)="goTo('/registro')">
-          Registrarse
-        </button>
-      </div>
-    </div>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
 <ion-content [fullscreen]="true">
 
@@ -45,7 +20,7 @@
         Frente a incendios, terremotos e inundaciones, tu donación se transforma en agua, refugio y esperanza para miles de familias chilenas.
       </p>
       <div class="hero-ctas">
-        <button class="btn-hero" (click)="scrollTo('donar')">
+        <button class="btn-hero" (click)="goTo('/donar')">
           Donar ahora →
         </button>
         <button class="btn-outline-hero" (click)="scrollTo('emergencias')">
@@ -80,114 +55,28 @@
         </p>
       </div>
 
-      <div class="cards-grid">
-        <div *ngFor="let e of emergencies" class="cs-card emergency-card">
+      <div class="cards-grid" *ngIf="emergencies.length > 0">
+        <div *ngFor="let e of emergencies" class="cs-card emergency-card" [class.urgente-pulse]="e.urgente">
           <div class="card-img-wrap">
-            <img [src]="e.img" [alt]="e.title" loading="lazy" />
+            <img [src]="imagenDe(e.tipoEmergencia)" [alt]="e.titulo || e.nombre" loading="lazy" />
             <div class="card-img-overlay"></div>
-            <span class="card-region">📍 {{ e.region }}</span>
-            <span class="card-icon-badge">{{ e.icon }}</span>
+            <span class="card-region" *ngIf="e.region">📍 {{ e.region }}</span>
+            <span class="card-icon-badge">{{ iconoDe(e.tipoEmergencia) }}</span>
           </div>
           <div class="card-body">
-            <h3>{{ e.title }}</h3>
-            <p class="card-desc">{{ e.desc }}</p>
-            <div class="progress-section">
-              <div class="cs-progress-wrap">
-                <div class="cs-progress-bar" [style.width.%]="getPercent(e)"></div>
-              </div>
-              <div class="progress-labels">
-                <span class="raised">{{ formatCLP(e.raised) }}</span>
-                <span class="text-muted">de {{ formatCLP(e.goal) }}</span>
-              </div>
-            </div>
-            <button class="btn-primary" (click)="scrollTo('donar')">
+            <h3>{{ e.titulo || e.nombre }}</h3>
+            <p class="card-desc">{{ e.descripcion }}</p>
+            <button class="btn-primary" (click)="goTo('/donar')">
               Aportar a esta causa
             </button>
           </div>
         </div>
       </div>
+      <p class="text-muted text-center" *ngIf="emergencies.length === 0">
+        No hay emergencias urgentes activas en este momento.
+      </p>
     </div>
   </section>
-
-  <!-- ══ DONACIÓN ══════════════════════════════════════════════════════════ -->
-  <section id="donar" class="section-pad bg-gradient-soft">
-    <div class="cs-container donation-layout">
-      <!-- Info side -->
-      <div class="donation-info">
-        <span class="section-label">Tu aporte cuenta</span>
-        <h2 class="section-title">Una donación. Miles de vidas.</h2>
-        <p class="section-subtitle">
-          El 95% de lo recaudado llega directamente a las zonas afectadas. Cada peso es auditado y reportado mes a mes.
-        </p>
-        <ul class="trust-list">
-          <li>
-            <div class="trust-icon">🛡️</div>
-            <div>
-              <p class="trust-title">100% transparente</p>
-              <p class="trust-desc">Informes mensuales públicos auditados por PwC Chile.</p>
-            </div>
-          </li>
-          <li>
-            <div class="trust-icon">🤝</div>
-            <div>
-              <p class="trust-title">Ayuda directa</p>
-              <p class="trust-desc">Coordinamos con ONEMI, Bomberos y municipalidades locales.</p>
-            </div>
-          </li>
-          <li>
-            <div class="trust-icon">🌐</div>
-            <div>
-              <p class="trust-title">Red nacional</p>
-              <p class="trust-desc">Brigadas en las 16 regiones del país.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Donation card -->
-      <div class="cs-card donation-card">
-        <h3>Hacer una donación</h3>
-        <p class="text-muted" style="font-size:0.875rem; margin-top:8px;">Selecciona el monto en pesos chilenos (CLP).</p>
-
-        <div class="presets-grid">
-          <button
-            *ngFor="let p of presets"
-            class="preset-btn"
-            [class.active]="amount === p"
-            (click)="setAmount(p)"
-          >
-            {{ formatCLP(p) }}
-          </button>
-        </div>
-
-        <div class="custom-amount-wrap">
-          <label class="cs-label">Otro monto</label>
-          <div class="custom-amount-input">
-            <span class="currency-prefix">$</span>
-            <input
-              type="number"
-              [value]="amount"
-              (input)="amount = +$any($event.target).value"
-              min="1000"
-              class="amount-field"
-            />
-            <span class="currency-suffix">CLP</span>
-          </div>
-        </div>
-
-        <div class="impact-box">
-          <p><strong>Tu aporte de {{ formatCLP(amount) }} entrega:</strong></p>
-          <p class="text-muted" style="font-size:0.875rem; margin-top:4px;">{{ donationImpact }}</p>
-        </div>
-
-        <button class="btn-hero" style="width:100%; justify-content:center; margin-top:20px;">
-          ❤️ Donar {{ formatCLP(amount) }}
-        </button>
-        <p class="payment-note">Pago seguro · Webpay · Transferencia · Tarjetas</p>
-      </div>
-    </div>
-  </section>
-
   <!-- ══ CTA FINAL ══════════════════════════════════════════════════════════ -->
   <section class="cta-section bg-gradient-primary">
     <div class="cs-container text-center">
@@ -247,3 +136,4 @@
   </footer>
 
 </ion-content>
+

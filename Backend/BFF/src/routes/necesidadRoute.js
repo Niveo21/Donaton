@@ -34,7 +34,7 @@ router.get('/listar', async (req, res) => {
 
 
 
-module.exports = router;
+
 
 router.post('/almacenar', async (req, res) => {
     try {
@@ -49,4 +49,6 @@ router.post('/almacenar', async (req, res) => {
         res.status(500).json({ error: "No se pudo procesar la necesidad" });
     }
 });
+
+module.exports = router;
 

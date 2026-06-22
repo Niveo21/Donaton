@@ -2,6 +2,7 @@ const express = require('express');
 const donacionRoute = require('./routes/donacionRoute');
 const registerRoute = require('./routes/registerRoute');
 const logisticaRoute = require('./routes/logisticaRoute');
+const necesidadRoute = require('./routes/necesidadRoute');
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.use('/donacion', donacionRoute);
 
 app.use('/usuario', registerRoute);
 
-app.use('/necesidad', registerRoute);// Descomentar cuando el archivo exista
+app.use('/necesidad', necesidadRoute);// Descomentar cuando el archivo exista
 
 app.use('/logistica', logisticaRoute);
 

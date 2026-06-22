@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,19 +10,20 @@ import { HttpClient } from '@angular/common/http';
   standalone: false,
 })
 export class LoginPage {
-  email = ''; 
+  email = '';
   password = '';
-  
+
   private apiUrl = 'http://localhost:8085/usuario/login';
 
   constructor(
-    private navCtrl: NavController, 
+    private navCtrl: NavController,
     private http: HttpClient,
-    private toastCtrl: ToastController
-  ) { }
+    private toastCtrl: ToastController,
+    private authService: AuthService
+  ) {}
 
-  goTo(p: string) { 
-    this.navCtrl.navigateRoot(p); 
+  goTo(p: string) {
+    this.navCtrl.navigateRoot(p);
   }
 
   private async showToast(message: string, color: 'success' | 'danger') {
@@ -45,24 +47,16 @@ export class LoginPage {
       password: this.password
     };
 
-    
-    this.http.post(this.apiUrl, credentials, { responseType: 'text' }).subscribe({
+    this.http.post<any>(this.apiUrl, credentials).subscribe({
       next: async (response) => {
-        //Estado 200 = ok
-        console.log('Servidor dice:', response);
+        this.authService.login(response);
         await this.showToast('¡Inicio de sesión exitoso!', 'success');
-        
-        
         this.goTo('/home');
       },
       error: async (error) => {
-        console.error('Error en el login:', error);
-
-        
         if (error.status === 401) {
           await this.showToast('Correo o contraseña incorrectos.', 'danger');
         } else {
-          // Cualquier otro error (ej: backend apagado, error 500, etc.)
           await this.showToast('Error al conectar con el servidor. Intente más tarde.', 'danger');
         }
       }

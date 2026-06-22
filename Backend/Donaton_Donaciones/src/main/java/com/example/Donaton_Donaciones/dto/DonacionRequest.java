@@ -33,7 +33,14 @@ public class DonacionRequest {
 
     // Campos para INSUMO_HIGIENE
     private String categoria; // "personal" o "hogar"
-    
+
+    // Datos de entrega (para ROPA / ALIMENTO / INSUMO_HIGIENE)
+    private String nombreSolicitante;
+    private String metodoEntrega; // "ACOPIO" o "DOMICILIO"
+    private String direccionRetiro;
+    private String comuna;
+    private String telefonoContacto;
+
 
     // Constructor vacío no tocar ultima advertencia
     public DonacionRequest() {
@@ -149,5 +156,45 @@ public class DonacionRequest {
     }
     public void setUnidadMedida(String unidadMedida) {
         this.unidadMedida = unidadMedida;
+    }
+
+    public String getNombreSolicitante() {
+        return nombreSolicitante;
+    }
+
+    public void setNombreSolicitante(String nombreSolicitante) {
+        this.nombreSolicitante = nombreSolicitante;
+    }
+
+    public String getMetodoEntrega() {
+        return metodoEntrega;
+    }
+
+    public void setMetodoEntrega(String metodoEntrega) {
+        this.metodoEntrega = metodoEntrega;
+    }
+
+    public String getDireccionRetiro() {
+        return direccionRetiro;
+    }
+
+    public void setDireccionRetiro(String direccionRetiro) {
+        this.direccionRetiro = direccionRetiro;
+    }
+
+    public String getComuna() {
+        return comuna;
+    }
+
+    public void setComuna(String comuna) {
+        this.comuna = comuna;
+    }
+
+    public String getTelefonoContacto() {
+        return telefonoContacto;
+    }
+
+    public void setTelefonoContacto(String telefonoContacto) {
+        this.telefonoContacto = telefonoContacto;
     }
 }

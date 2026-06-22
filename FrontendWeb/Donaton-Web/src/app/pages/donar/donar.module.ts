@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Routes } from '@angular/router';
-import { NosotrosPage } from './nosotros.page';
+import { DonarPage } from './donar.page';
 import { SharedModule } from '../../shared/shared.module';
 
-const routes: Routes = [{ path: '', component: NosotrosPage }];
+const routes: Routes = [{ path: '', component: DonarPage }];
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), SharedModule],
-  declarations: [NosotrosPage]
+  declarations: [DonarPage]
 })
-export class NosotrosPageModule {}
+export class DonarPageModule {}

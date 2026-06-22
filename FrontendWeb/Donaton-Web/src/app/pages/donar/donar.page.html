@@ -1,0 +1,287 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <section class="section-pad">
+    <div class="cs-container">
+      <div class="section-header text-center">
+        <span class="section-label">Tu aporte cuenta</span>
+        <h2 class="section-title">Una donación. Miles de vidas.</h2>
+        <p class="section-subtitle">
+          El 95% de lo recaudado llega directamente a las zonas afectadas. Cada peso es auditado y reportado mes a mes.
+        </p>
+      </div>
+
+      <ul class="trust-row">
+        <li>
+          <div class="trust-icon">🛡️</div>
+          <div>
+            <p class="trust-title">100% transparente</p>
+            <p class="trust-desc">Informes mensuales públicos auditados por PwC Chile.</p>
+          </div>
+        </li>
+        <li>
+          <div class="trust-icon">🤝</div>
+          <div>
+            <p class="trust-title">Ayuda directa</p>
+            <p class="trust-desc">Coordinamos con ONEMI, Bomberos y municipalidades locales.</p>
+          </div>
+        </li>
+        <li>
+          <div class="trust-icon">🌐</div>
+          <div>
+            <p class="trust-title">Red nacional</p>
+            <p class="trust-desc">Brigadas en las 16 regiones del país.</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="donation-cards-row">
+        <!-- Card izquierda: tipo de donación -->
+        <div class="cs-card donation-card">
+          <h3>Hacer una donación</h3>
+          <p class="text-muted" style="font-size:0.875rem; margin-top:8px;">Selecciona el tipo de aporte que quieres realizar.</p>
+
+          <div class="type-tabs">
+            <button class="type-tab" [class.active]="donationType === 'DINERO'" (click)="setDonationType('DINERO')">
+              <span class="type-icon">💵</span> Dinero
+            </button>
+            <button class="type-tab" [class.active]="donationType === 'ROPA'" (click)="setDonationType('ROPA')">
+              <span class="type-icon">👕</span> Ropa
+            </button>
+            <button class="type-tab" [class.active]="donationType === 'ALIMENTOS'" (click)="setDonationType('ALIMENTOS')">
+              <span class="type-icon">🍎</span> Alimentos
+            </button>
+            <button class="type-tab" [class.active]="donationType === 'HIGIENE'" (click)="setDonationType('HIGIENE')">
+              <span class="type-icon">🧼</span> Higiene
+            </button>
+          </div>
+
+          <!-- DINERO -->
+          <ng-container *ngIf="donationType === 'DINERO'">
+            <p class="text-muted" style="font-size:0.875rem; margin-top:20px;">Selecciona el monto que quieres aportar.</p>
+
+            <div class="presets-grid">
+              <button
+                *ngFor="let p of presets"
+                class="preset-btn"
+                [class.active]="amount === p"
+                (click)="setAmount(p)"
+              >
+                {{ formatCLP(p) }}
+              </button>
+            </div>
+
+            <div class="custom-amount-wrap">
+              <label class="cs-label">Otro monto</label>
+              <div class="custom-amount-input">
+                <span class="currency-prefix">$</span>
+                <input
+                  type="number"
+                  [value]="amount"
+                  (input)="amount = +$any($event.target).value"
+                  min="1000"
+                  class="amount-field"
+                />
+                <span class="currency-suffix">CLP</span>
+              </div>
+            </div>
+
+            <div class="impact-box">
+              <p><strong>Tu aporte de {{ formatCLP(amount) }} entrega:</strong></p>
+              <p class="text-muted" style="font-size:0.875rem; margin-top:4px;">{{ donationImpact }}</p>
+            </div>
+          </ng-container>
+
+          <!-- ROPA / ALIMENTOS / HIGIENE -->
+          <ng-container *ngIf="donationType !== 'DINERO'">
+            <p class="text-muted" style="font-size:0.875rem; margin-top:20px;">
+              Indica qué puedes aportar y cuánto. Te confirmaremos según las necesidades urgentes.
+            </p>
+
+            <ul class="items-list">
+              <li *ngFor="let item of itemsActuales">
+                <span class="item-name">{{ item.nombre }}</span>
+                <div class="item-counter">
+                  <button class="counter-btn" (click)="decrementarItem(item)">−</button>
+                  <span class="counter-value">{{ item.cantidad }}</span>
+                  <button class="counter-btn" (click)="incrementarItem(item)">+</button>
+                </div>
+              </li>
+            </ul>
+
+            <p class="items-total">Total ítems seleccionados: <strong>{{ totalItems }}</strong></p>
+          </ng-container>
+        </div>
+
+        <!-- Card derecha: pago (dinero) -->
+        <div class="cs-card donation-card" *ngIf="donationType === 'DINERO'">
+          <h3>¿Cómo quieres pagar?</h3>
+
+          <ul class="payment-options">
+            <li [class.active]="paymentMethod === 'WEBPAY'" (click)="setPaymentMethod('WEBPAY')">
+              <span>Webpay</span>
+              <span class="text-muted" style="font-size:0.75rem;">Seguro</span>
+            </li>
+            <li [class.active]="paymentMethod === 'TRANSFERENCIA'" (click)="setPaymentMethod('TRANSFERENCIA')">
+              <span>Transferencia bancaria</span>
+              <span class="text-muted" style="font-size:0.75rem;">Seguro</span>
+            </li>
+            <li [class.active]="paymentMethod === 'TARJETA'" (click)="setPaymentMethod('TARJETA')">
+              <span>Tarjeta crédito / débito</span>
+              <span class="text-muted" style="font-size:0.75rem;">Seguro</span>
+            </li>
+          </ul>
+
+          <!-- Datos bancarios para transferencia -->
+          <div class="bank-details" *ngIf="paymentMethod === 'TRANSFERENCIA'">
+            <p class="text-muted" style="font-size:0.8rem; margin-bottom:10px;">
+              Realiza tu transferencia a esta cuenta y luego confirma con el botón de abajo.
+            </p>
+            <dl>
+              <div>
+                <dt>Banco</dt>
+                <dd>Banco Estado</dd>
+              </div>
+              <div>
+                <dt>Tipo de cuenta</dt>
+                <dd>Cuenta Corriente</dd>
+              </div>
+              <div>
+                <dt>Número de cuenta</dt>
+                <dd>00-123-456-7</dd>
+              </div>
+              <div>
+                <dt>RUT</dt>
+                <dd>76.123.456-7</dd>
+              </div>
+              <div>
+                <dt>Email de confirmación</dt>
+                <dd>donaciones&#64;chiledonaton.cl</dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Datos de tarjeta (simulados) -->
+          <ng-container *ngIf="paymentMethod === 'TARJETA'">
+            <div class="form-group" style="margin-top:16px;">
+              <input
+                class="cs-input"
+                placeholder="Número de tarjeta"
+                maxlength="19"
+                [(ngModel)]="tarjetaForm.numero"
+                name="tarjetaNumero"
+              />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <input
+                  class="cs-input"
+                  placeholder="MM/AA"
+                  maxlength="5"
+                  [(ngModel)]="tarjetaForm.vencimiento"
+                  name="tarjetaVencimiento"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  class="cs-input"
+                  placeholder="CVV"
+                  maxlength="4"
+                  [(ngModel)]="tarjetaForm.cvv"
+                  name="tarjetaCvv"
+                />
+              </div>
+            </div>
+          </ng-container>
+
+          <button class="btn-hero" style="width:100%; justify-content:center; margin-top:20px;" (click)="donar()">
+            ❤️ Donar {{ formatCLP(amount) }}
+          </button>
+          <p class="payment-note">Pago seguro · Webpay · Transferencia · Tarjetas</p>
+        </div>
+
+        <!-- Card derecha: entrega (items físicos) -->
+        <div class="cs-card donation-card" *ngIf="donationType !== 'DINERO'">
+          <h3>¿Cómo entregas tu donación?</h3>
+
+          <div class="delivery-tabs">
+            <button class="delivery-tab" [class.active]="deliveryMethod === 'ACOPIO'" (click)="setDeliveryMethod('ACOPIO')">
+              📍 Punto de acopio
+              <span class="text-muted" style="font-size:0.75rem; display:block;">Tú la llevas</span>
+            </button>
+            <button class="delivery-tab" [class.active]="deliveryMethod === 'DOMICILIO'" (click)="setDeliveryMethod('DOMICILIO')">
+              🚚 Retiro a domicilio
+              <span class="text-muted" style="font-size:0.75rem; display:block;">Vamos por ella</span>
+            </button>
+          </div>
+
+          <!-- Punto de acopio -->
+          <ng-container *ngIf="deliveryMethod === 'ACOPIO'">
+            <p class="text-muted" style="font-size:0.875rem; margin-top:16px;">Elige el punto más cercano</p>
+
+            <div class="acopio-cards-grid" *ngIf="puntosAcopio.length > 0">
+              <div
+                *ngFor="let p of puntosAcopio"
+                class="cs-card acopio-card"
+                [class.active]="acopioSeleccionado === p"
+                [class.urgente-pulse]="p.urgente"
+                (click)="seleccionarAcopio(p)"
+              >
+                <div class="card-img-wrap">
+                  <img [src]="imagenDe(p.tipoEmergencia)" [alt]="p.titulo || p.nombre" loading="lazy" />
+                  <div class="card-img-overlay"></div>
+                  <span class="card-region" *ngIf="p.region">📍 {{ p.region }}</span>
+                  <span class="card-icon-badge">{{ iconoDe(p.tipoEmergencia) }}</span>
+                </div>
+                <div class="card-body">
+                  <h3>{{ p.titulo || p.nombre }}</h3>
+                  <p class="card-desc" *ngIf="p.descripcion">{{ p.descripcion }}</p>
+                  <p class="card-address text-muted">{{ p.nombre }} · {{ p.direccion }}, {{ p.comuna }}</p>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted" style="font-size:0.875rem; margin-top:12px;" *ngIf="puntosAcopio.length === 0">
+              Aún no hay puntos de acopio disponibles. Vuelve a intentarlo más tarde.
+            </p>
+
+            <button class="btn-hero" style="width:100%; justify-content:center; margin-top:20px;" (click)="confirmarEntregaAcopio()">
+              ❤️ Confirmar entrega en acopio
+            </button>
+          </ng-container>
+
+          <!-- Retiro a domicilio -->
+          <ng-container *ngIf="deliveryMethod === 'DOMICILIO'">
+            <div class="form-group" style="margin-top:16px;">
+              <input class="cs-input" placeholder="Dirección de retiro" [(ngModel)]="domicilioForm.direccion" name="domDireccion" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <input class="cs-input" placeholder="Comuna" [(ngModel)]="domicilioForm.comuna" name="domComuna" />
+              </div>
+              <div class="form-group">
+                <div class="phone-input">
+                  <span class="phone-prefix">+56</span>
+                  <input
+                    class="phone-field"
+                    type="tel"
+                    inputmode="numeric"
+                    placeholder="9 1234 5678"
+                    maxlength="9"
+                    [(ngModel)]="domicilioForm.telefono"
+                    name="domTelefono"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-hero" style="width:100%; justify-content:center; margin-top:8px;" (click)="solicitarRetiroDomicilio()">
+              ❤️ Solicitar retiro a domicilio
+            </button>
+          </ng-container>
+
+          <p class="payment-note">Pago seguro · Webpay · Transferencia · Tarjetas</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

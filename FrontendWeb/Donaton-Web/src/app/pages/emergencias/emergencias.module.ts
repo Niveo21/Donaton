@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Routes } from '@angular/router';
 import { EmergenciasPage } from './emergencias.page';
+import { SharedModule } from '../../shared/shared.module';
 
 const routes: Routes = [{ path: '', component: EmergenciasPage }];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), SharedModule],
   declarations: [EmergenciasPage]
 })
 export class EmergenciasPageModule {}
