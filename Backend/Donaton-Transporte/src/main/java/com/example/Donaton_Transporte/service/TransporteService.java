@@ -30,4 +30,8 @@ public class TransporteService {
         return transporteRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Transporte no encontrado: " + id));
     }
+
+    public void eliminarTransporte(int id) {
+        transporteRepository.deleteById(id);
+    }
 }

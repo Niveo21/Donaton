@@ -37,4 +37,15 @@ router.post('/', async (req, res) => {
     }
 });
 
+// PUT /notificacion/marcar-leidas — Marcar todas como leídas
+router.put('/marcar-leidas', async (req, res) => {
+    try {
+        const response = await axios.put(`${NOTIFICACION_URL}/marcar-leidas`);
+        return res.status(200).json({ mensaje: response.data });
+    } catch (error) {
+        console.error("Error al marcar notificaciones como leídas:", error.message);
+        res.status(500).json({ error: "No se pudo actualizar las notificaciones" });
+    }
+});
+
 module.exports = router;

@@ -1,0 +1,115 @@
+.section-pad {
+  padding: 60px 0;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.admin-tab {
+  border: 2px solid var(--cs-border);
+  border-radius: 12px;
+  padding: 10px 18px;
+  background: var(--cs-background);
+  color: var(--cs-foreground);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--cs-transition);
+
+  &.active {
+    border-color: var(--cs-accent);
+    background: rgba(224, 90, 43, 0.08);
+    color: var(--cs-accent);
+  }
+
+  &:hover:not(.active) { border-color: rgba(224, 90, 43, 0.4); }
+}
+
+.admin-layout {
+  display: grid;
+  gap: 28px;
+  align-items: start;
+
+  @media (min-width: 900px) { grid-template-columns: 1fr 1fr; }
+}
+
+.admin-layout-single {
+  @media (min-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.voluntario-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--cs-border);
+
+  &:last-child { border-bottom: none; }
+
+  .voluntario-info {
+    strong { font-size: 0.9rem; }
+    p { margin: 2px 0 0; font-size: 0.8rem; }
+  }
+}
+
+.voluntario-selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  select.cs-input {
+    width: auto;
+    min-width: 160px;
+  }
+}
+
+.admin-form, .admin-list {
+  padding: 28px;
+
+  h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+}
+
+.admin-list-row {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cs-border);
+
+  &:last-child { border-bottom: none; }
+
+  strong { font-size: 0.9rem; }
+
+  p { margin: 4px 0 0; font-size: 0.8rem; }
+}
+
+.admin-list-row-flex {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-delete-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--cs-muted-foreground);
+  padding: 4px;
+  opacity: 0.7;
+  transition: var(--cs-transition);
+
+  &:hover {
+    opacity: 1;
+    color: #dc2626;
+  }
+}

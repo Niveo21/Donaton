@@ -26,4 +26,8 @@ public class AcopioService {
         return acopioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Acopio no encontrado: " + id));
     }
+
+    public void eliminarAcopio(int id) {
+        acopioRepository.deleteById(id);
+    }
 }

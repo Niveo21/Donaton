@@ -1,0 +1,78 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <section class="section-pad">
+    <div class="cs-container">
+      <div class="section-header">
+        <span class="section-label">Comunidad</span>
+        <h1 class="section-title">Chat de voluntarios</h1>
+        <p class="section-subtitle">Coordina con otros voluntarios en tiempo real.</p>
+      </div>
+
+      <div class="cs-card chat-layout">
+        <!-- Barra lateral: canales -->
+        <div class="chat-sidebar">
+          <div
+            class="chat-channel"
+            [class.active]="canalActivo.rut === null"
+            (click)="seleccionarCanal(null, 'General')"
+          >
+            <div class="chat-avatar">💬</div>
+            <div class="chat-channel-info">
+              <strong>General</strong>
+              <p class="text-muted">Chat de todos los voluntarios</p>
+            </div>
+          </div>
+
+          <div
+            class="chat-channel"
+            *ngFor="let c of contactos"
+            [class.active]="canalActivo.rut === c.rut"
+            (click)="seleccionarCanal(c.rut, c.nombre)"
+          >
+            <div class="chat-avatar">👤</div>
+            <div class="chat-channel-info">
+              <strong>{{ c.nombre }}</strong>
+              <p class="text-muted">{{ c.rut }}</p>
+            </div>
+          </div>
+
+          <p class="text-muted chat-sin-contactos" *ngIf="contactos.length === 0">
+            No hay otros voluntarios todavía.
+          </p>
+        </div>
+
+        <!-- Panel de mensajes -->
+        <div class="chat-panel">
+          <div class="chat-panel-header">{{ canalActivo.nombre }}</div>
+
+          <div class="chat-messages">
+            <div
+              class="chat-msg"
+              *ngFor="let m of mensajesCanal"
+              [class.mio]="usuario && m.rut === usuario.rut"
+            >
+              <span class="chat-msg-autor">{{ m.nombre }}</span>
+              <p class="chat-msg-texto">{{ m.mensaje }}</p>
+              <span class="chat-msg-hora">{{ formatearHora(m.fechaEnvio) }}</span>
+            </div>
+            <p class="text-muted" *ngIf="mensajesCanal.length === 0">
+              Aún no hay mensajes. ¡Sé el primero en escribir!
+            </p>
+          </div>
+
+          <div class="chat-input-row">
+            <input
+              class="cs-input"
+              placeholder="Escribe un mensaje..."
+              [(ngModel)]="texto"
+              name="texto"
+              (keyup.enter)="enviarMensaje()"
+            />
+            <button class="btn-hero" (click)="enviarMensaje()">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

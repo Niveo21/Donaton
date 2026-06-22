@@ -167,8 +167,10 @@
               <input
                 class="cs-input"
                 placeholder="Número de tarjeta"
+                inputmode="numeric"
                 maxlength="19"
-                [(ngModel)]="tarjetaForm.numero"
+                [value]="tarjetaForm.numero"
+                (input)="onTarjetaNumeroInput($event)"
                 name="tarjetaNumero"
               />
             </div>
@@ -177,8 +179,10 @@
                 <input
                   class="cs-input"
                   placeholder="MM/AA"
+                  inputmode="numeric"
                   maxlength="5"
-                  [(ngModel)]="tarjetaForm.vencimiento"
+                  [value]="tarjetaForm.vencimiento"
+                  (input)="onVencimientoInput($event)"
                   name="tarjetaVencimiento"
                 />
               </div>
@@ -186,8 +190,10 @@
                 <input
                   class="cs-input"
                   placeholder="CVV"
-                  maxlength="4"
-                  [(ngModel)]="tarjetaForm.cvv"
+                  inputmode="numeric"
+                  maxlength="3"
+                  [value]="tarjetaForm.cvv"
+                  (input)="onCvvInput($event)"
                   name="tarjetaCvv"
                 />
               </div>

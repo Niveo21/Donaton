@@ -1,0 +1,154 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <section class="section-pad">
+    <div class="cs-container">
+      <div class="section-header">
+        <span class="section-label">Panel administrativo</span>
+        <h1 class="section-title">Gestión de logística</h1>
+        <p class="section-subtitle">Crea y revisa puntos de acopio y transportes disponibles.</p>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab" [class.active]="tab === 'acopio'" (click)="setTab('acopio')">
+          📍 Puntos de acopio
+        </button>
+        <button class="admin-tab" [class.active]="tab === 'transporte'" (click)="setTab('transporte')">
+          🚚 Transporte
+        </button>
+        <button class="admin-tab" [class.active]="tab === 'voluntarios'" (click)="setTab('voluntarios')">
+          🙋 Voluntarios
+        </button>
+      </div>
+
+      <!-- ══ ACOPIO ══════════════════════════════════════════════════════ -->
+      <div class="admin-layout" *ngIf="tab === 'acopio'">
+        <div class="cs-card admin-form">
+          <h3>Nuevo punto de acopio</h3>
+
+          <div class="form-group">
+            <label class="cs-label">Nombre</label>
+            <input class="cs-input" placeholder="Bodega Central" [(ngModel)]="nuevoAcopio.nombre" name="nombre" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="cs-label">Dirección</label>
+              <input class="cs-input" placeholder="Av. Matta 1234" [(ngModel)]="nuevoAcopio.direccion" name="direccion" />
+            </div>
+            <div class="form-group">
+              <label class="cs-label">Comuna</label>
+              <input class="cs-input" placeholder="Santiago" [(ngModel)]="nuevoAcopio.comuna" name="comuna" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Región</label>
+            <input class="cs-input" placeholder="Metropolitana" [(ngModel)]="nuevoAcopio.region" name="region" />
+          </div>
+
+          <div class="form-group">
+            <label class="cs-label">Tipo de emergencia</label>
+            <select class="cs-input" [(ngModel)]="nuevoAcopio.tipoEmergencia" name="tipoEmergencia">
+              <option *ngFor="let t of tiposEmergencia" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Título de la causa</label>
+            <input class="cs-input" placeholder="Incendios Forestales" [(ngModel)]="nuevoAcopio.titulo" name="titulo" />
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Descripción</label>
+            <textarea class="cs-textarea" rows="3" placeholder="Recibiendo ropa de abrigo y alimentos no perecibles." [(ngModel)]="nuevoAcopio.descripcion" name="descripcion"></textarea>
+          </div>
+
+          <label class="cs-checkbox-label" style="margin-bottom:16px;">
+            <input type="checkbox" [(ngModel)]="nuevoAcopio.urgente" name="urgente" />
+            <span>Marcar como urgente (aparece en el home)</span>
+          </label>
+
+          <button class="btn-hero full-width" (click)="crearAcopio()">Crear punto de acopio</button>
+        </div>
+
+        <div class="cs-card admin-list">
+          <h3>Puntos existentes ({{ acopios.length }})</h3>
+          <div class="admin-list-row admin-list-row-flex" *ngFor="let a of acopios">
+            <div>
+              <strong>{{ a.titulo || a.nombre }}</strong>
+              <span class="text-muted" *ngIf="a.urgente"> · 🔴 urgente</span>
+              <p class="text-muted">{{ a.direccion }}, {{ a.comuna }}</p>
+            </div>
+            <button class="admin-delete-btn" (click)="eliminarAcopio(a.id)" aria-label="Eliminar punto de acopio">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+          <p class="text-muted" *ngIf="acopios.length === 0">Aún no hay puntos de acopio.</p>
+        </div>
+      </div>
+
+      <!-- ══ TRANSPORTE ══════════════════════════════════════════════════ -->
+      <div class="admin-layout" *ngIf="tab === 'transporte'">
+        <div class="cs-card admin-form">
+          <h3>Nuevo transporte</h3>
+
+          <div class="form-group">
+            <label class="cs-label">Tipo</label>
+            <input class="cs-input" placeholder="Camión" [(ngModel)]="nuevoTransporte.tipo" name="tipo" />
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Modelo</label>
+            <input class="cs-input" placeholder="Mercedes Sprinter" [(ngModel)]="nuevoTransporte.modelo" name="modelo" />
+          </div>
+          <div class="form-group">
+            <label class="cs-label">Placa</label>
+            <input class="cs-input" placeholder="ABCD-12" [(ngModel)]="nuevoTransporte.placa" name="placa" />
+          </div>
+          
+          <button class="btn-hero full-width" (click)="crearTransporte()">Crear transporte</button>
+        </div>
+
+        <div class="cs-card admin-list">
+          <h3>Transportes existentes ({{ transportes.length }})</h3>
+          <div class="admin-list-row admin-list-row-flex" *ngFor="let t of transportes">
+            <div>
+              <strong>{{ t.tipo }} — {{ t.modelo }}</strong>
+              <p class="text-muted">Placa: {{ t.placa }}</p>
+            </div>
+            <button class="admin-delete-btn" (click)="eliminarTransporte(t.id)" aria-label="Eliminar transporte">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+          <p class="text-muted" *ngIf="transportes.length === 0">Aún no hay transportes.</p>
+        </div>
+      </div>
+
+      <!-- ══ VOLUNTARIOS ═════════════════════════════════════════════════ -->
+      <div class="admin-layout admin-layout-single" *ngIf="tab === 'voluntarios'">
+        <div class="cs-card admin-list">
+          <h3>Voluntarios ({{ voluntarios.length }})</h3>
+
+          <div class="voluntario-row" *ngFor="let v of voluntarios">
+            <div class="voluntario-info">
+              <strong>{{ v.nombre }}</strong>
+              <p class="text-muted">{{ v.rut }}</p>
+            </div>
+
+            <div class="voluntario-selects">
+              <select class="cs-input" [(ngModel)]="seleccionTransporte[v.rut]" [name]="'transporte-' + v.rut">
+                <option [ngValue]="null">Sin transporte</option>
+                <option *ngFor="let t of transportes" [ngValue]="t.id">{{ t.tipo }} — {{ t.placa }}</option>
+              </select>
+
+              <select class="cs-input" [(ngModel)]="seleccionAcopio[v.rut]" [name]="'acopio-' + v.rut">
+                <option [ngValue]="null">Sin acopio</option>
+                <option *ngFor="let a of acopios" [ngValue]="a.id">{{ a.titulo || a.nombre }}</option>
+              </select>
+
+              <button class="btn-primary" style="width:auto; padding:10px 20px;" (click)="asignar(v)">Guardar</button>
+            </div>
+          </div>
+
+          <p class="text-muted" *ngIf="voluntarios.length === 0">No hay voluntarios registrados.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</ion-content>

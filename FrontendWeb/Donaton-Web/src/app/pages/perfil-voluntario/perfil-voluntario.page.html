@@ -1,0 +1,60 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <section class="section-pad">
+    <div class="cs-container perfil-container">
+      <div class="section-header">
+        <span class="section-label">Mi cuenta</span>
+        <h1 class="section-title">Perfil de voluntario</h1>
+        <p class="section-subtitle">Aquí puedes ver tu información y el estado de tus asignaciones.</p>
+      </div>
+
+      <div class="cs-card perfil-card" *ngIf="cargando">
+        <p class="text-muted">Cargando tu información...</p>
+      </div>
+
+      <div class="cs-card perfil-card" *ngIf="!cargando">
+        <ng-container *ngIf="voluntario; else sinDatos">
+          <div class="perfil-row">
+            <span class="perfil-label">Nombre</span>
+            <span class="perfil-value">{{ voluntario.nombre }}</span>
+          </div>
+          <div class="perfil-row">
+            <span class="perfil-label">RUT</span>
+            <span class="perfil-value">{{ voluntario.rut }}</span>
+          </div>
+          <div class="perfil-row">
+            <span class="perfil-label">Email</span>
+            <span class="perfil-value">{{ voluntario.email }}</span>
+          </div>
+
+          <div class="asignacion-section">
+            <h3>Transporte asignado</h3>
+            <div class="asignacion-box" *ngIf="voluntario.transporte; else sinTransporte">
+              <p><strong>{{ voluntario.transporte.tipo }}</strong> — {{ voluntario.transporte.modelo }}</p>
+              <p class="text-muted">Placa: {{ voluntario.transporte.placa }}</p>
+            </div>
+            <ng-template #sinTransporte>
+              <p class="text-muted">Aún no tienes un transporte asignado.</p>
+            </ng-template>
+          </div>
+
+          <div class="asignacion-section">
+            <h3>Punto de acopio asignado</h3>
+            <div class="asignacion-box" *ngIf="voluntario.acopio; else sinAcopio">
+              <p><strong>{{ voluntario.acopio.nombre }}</strong></p>
+              <p class="text-muted">{{ voluntario.acopio.direccion }}, {{ voluntario.acopio.comuna }}</p>
+            </div>
+            <ng-template #sinAcopio>
+              <p class="text-muted">Aún no tienes un punto de acopio asignado.</p>
+            </ng-template>
+          </div>
+        </ng-container>
+
+        <ng-template #sinDatos>
+          <p class="text-muted">No encontramos tu registro como voluntario. Si crees que esto es un error, contáctanos.</p>
+        </ng-template>
+      </div>
+    </div>
+  </section>
+</ion-content>

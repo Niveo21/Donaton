@@ -24,21 +24,51 @@
       </div>
 
       <!-- Usuario logueado -->
-      <div class="user-menu" *ngIf="usuario$ | async as usuario">
-        <div class="user-trigger" (click)="toggleMenu($event)">
-          <div class="user-icon">
-            <ion-icon name="person-sharp"></ion-icon>
-          </div>
-          <span class="user-name">{{ usuario.nombre }}</span>
+      <div class="logged-in-actions" *ngIf="usuario$ | async as usuario">
+        <div class="notif-bell" (click)="abrirNotificaciones($event)">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <span class="notif-badge" *ngIf="noLeidas > 0">{{ noLeidas }}</span>
         </div>
 
-        <ion-popover [isOpen]="menuAbierto" [event]="popoverEvent" (didDismiss)="menuAbierto = false" side="bottom" alignment="end">
+        <ion-popover [isOpen]="notificacionesAbierto" [event]="notifEvent" (didDismiss)="notificacionesAbierto = false" side="bottom" alignment="end" class="notif-popover">
           <ng-template>
-            <ion-list lines="none">
-              <ion-item button (click)="cerrarSesion()">Cerrar sesión</ion-item>
-            </ion-list>
+            <div class="notif-panel">
+              <div class="notif-panel-header">Notificaciones</div>
+              <div class="notif-panel-body">
+                <div class="notif-row" *ngFor="let n of notificaciones" [class.unread]="!n.leido">
+                  <span class="notif-icon">🔔</span>
+                  <p class="notif-msg">{{ n.mensaje }}</p>
+                   <button class="notif-delete" (click)="eliminarNotificacion(n.id, $event)" aria-label="Eliminar notificación">
+                    <ion-icon name="close-outline"></ion-icon>
+                   </button>
+                </div>
+                <div class="notif-empty" *ngIf="notificaciones.length === 0">
+                  No tienes notificaciones
+                </div>
+              </div>
+            </div>
           </ng-template>
         </ion-popover>
+
+        <div class="user-menu">
+          <div class="user-trigger" (click)="toggleMenu($event)">
+            <div class="user-icon">
+              <ion-icon name="person-sharp"></ion-icon>
+            </div>
+            <span class="user-name">{{ usuario.nombre }}</span>
+          </div>
+
+          <ion-popover [isOpen]="menuAbierto" [event]="popoverEvent" (didDismiss)="menuAbierto = false" side="bottom" alignment="end">
+            <ng-template>
+              <ion-list lines="none">
+                <ion-item button *ngIf="usuario.rol === 'VOLUNTARIO'" (click)="goTo('/perfil-voluntario')">Mi perfil</ion-item>
+                <ion-item button *ngIf="usuario.rol === 'VOLUNTARIO'" (click)="goTo('/chat-voluntarios')">Chat de voluntarios</ion-item>
+                <ion-item button *ngIf="usuario.rol === 'ADMIN'" (click)="goTo('/admin')">Panel administrativo</ion-item>
+                <ion-item button (click)="cerrarSesion()">Cerrar sesión</ion-item>
+              </ion-list>
+            </ng-template>
+          </ion-popover>
+        </div>
       </div>
     </div>
   </ion-toolbar>

@@ -125,6 +125,28 @@ export class DonarPage implements OnInit {
   setAmount(p: number) { this.amount = p; }
   goTo(path: string) { this.navCtrl.navigateRoot(path); }
 
+  onTarjetaNumeroInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const digitos = input.value.replace(/\D/g, '').slice(0, 16);
+    this.tarjetaForm.numero = digitos.replace(/(.{4})/g, '$1 ').trim();
+    input.value = this.tarjetaForm.numero;
+  }
+
+  onVencimientoInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let digitos = input.value.replace(/\D/g, '').slice(0, 4);
+    this.tarjetaForm.vencimiento = digitos.length > 2
+      ? `${digitos.slice(0, 2)}/${digitos.slice(2)}`
+      : digitos;
+    input.value = this.tarjetaForm.vencimiento;
+  }
+
+  onCvvInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.tarjetaForm.cvv = input.value.replace(/\D/g, '').slice(0, 3);
+    input.value = this.tarjetaForm.cvv;
+  }
+
   private async showToast(message: string, color: 'success' | 'danger') {
     const toast = await this.toastCtrl.create({
       message,

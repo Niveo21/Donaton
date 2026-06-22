@@ -32,6 +32,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/donar/donar.module').then(m => m.DonarPageModule)
   },
   {
+    path: 'perfil-voluntario',
+    loadChildren: () => import('./pages/perfil-voluntario/perfil-voluntario.module').then(m => m.PerfilVoluntarioPageModule)
+  },
+  {
+    path: 'chat-voluntarios',
+    loadChildren: () => import('./pages/chat-voluntarios/chat-voluntarios.module').then(m => m.ChatVoluntariosPageModule)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminPageModule)
+  },
+  {
     path: 'emergencias',
     loadChildren: () => import('./pages/emergencias/emergencias.module').then(m => m.EmergenciasPageModule)
   },

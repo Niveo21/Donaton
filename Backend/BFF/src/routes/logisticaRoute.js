@@ -29,6 +29,19 @@ router.post('/acopio', async (req, res) => {
         res.status(500).json({ error: "Error al registrar acopio" });
     }
 })
+
+// DELETE /acopio/:id
+router.delete('/acopio/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.delete(`${ACOPIO_URL}/acopio/${id}`);
+        res.json({ mensaje: response.data });
+    } catch (error) {
+        console.error("Error en Acopio DELETE:", error.message);
+        res.status(500).json({ error: "Error al eliminar acopio" });
+    }
+});
+
 // ENVIO
 
 
@@ -136,6 +149,18 @@ router.post('/transporte', async (req, res) => {
     } catch (error) {
         console.error("Error en Transporte POST:", error.message);
         res.status(500).json({ error: "Error al registrar transporte" });
+    }
+});
+
+// DELETE /transporte/:id
+router.delete('/transporte/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.delete(`${TRANSPORTE_URL}/transporte/${id}`);
+        res.json({ mensaje: response.data });
+    } catch (error) {
+        console.error("Error en Transporte DELETE:", error.message);
+        res.status(500).json({ error: "Error al eliminar transporte" });
     }
 });
 

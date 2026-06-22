@@ -1,6 +1,22 @@
-import { Component, Input } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { AuthService, Usuario } from '../../services/auth.service';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { NavController, ToastController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+import { Client } from '@stomp/stompjs';
+import { AuthService } from '../../services/auth.service';
+
+interface Notificacion {
+  id: number;
+  mensaje: string;
+  fechaEnvio: string;
+  leido: boolean;
+}
+
+interface MensajeChat {
+  rut: string;
+  nombre: string;
+  destinatarioRut?: string | null;
+  mensaje: string;
+}
 
 @Component({
   selector: 'app-header',
@@ -8,7 +24,7 @@ import { AuthService, Usuario } from '../../services/auth.service';
   styleUrls: ['./header.component.scss'],
   standalone: false,
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Input() logoIcon = 'D';
   @Input() logoPrefix = 'Chile';
   @Input() logoText = 'Donaton';
@@ -16,10 +32,42 @@ export class HeaderComponent {
   menuAbierto = false;
   popoverEvent: Event | undefined;
 
-  constructor(private navCtrl: NavController, private authService: AuthService) {}
+  notificaciones: Notificacion[] = [];
+  notificacionesAbierto = false;
+  notifEvent: Event | undefined;
+
+  private notificacionUrl = 'http://localhost:8083/notificacion';
+  private stompClient: Client | undefined;
+
+  constructor(
+    private navCtrl: NavController,
+    private authService: AuthService,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private toastCtrl: ToastController
+  ) {}
+
+  ngOnInit() {
+    this.usuario$.subscribe(usuario => {
+      if (usuario) {
+        this.cargarNotificaciones();
+        this.conectarWebSocket();
+      } else {
+        this.desconectarWebSocket();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.desconectarWebSocket();
+  }
 
   get usuario$() {
     return this.authService.usuario$;
+  }
+
+  get noLeidas(): number {
+    return this.notificaciones.filter(n => !n.leido).length;
   }
 
   goTo(p: string) {
@@ -30,6 +78,99 @@ export class HeaderComponent {
   toggleMenu(ev: Event) {
     this.popoverEvent = ev;
     this.menuAbierto = !this.menuAbierto;
+  }
+
+  abrirNotificaciones(ev: Event) {
+    this.notifEvent = ev;
+    this.notificacionesAbierto = !this.notificacionesAbierto;
+    if (this.notificacionesAbierto) {
+      this.cargarNotificaciones(() => this.marcarComoLeidas());
+    }
+  }
+  
+  eliminarNotificacion(id: number, event: Event) {
+    event.stopPropagation();
+    this.http.delete(`${this.notificacionUrl}/${id}`, { responseType: 'text' }).subscribe({
+      next: () => {
+        this.notificaciones = this.notificaciones.filter(n => n.id !== id);
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('No se pudo eliminar la notificación:', err)
+    });
+  }
+
+  private cargarNotificaciones(alTerminar?: () => void) {
+    this.http.get<Notificacion[]>(this.notificacionUrl).subscribe({
+      next: (data) => {
+        this.notificaciones = data;
+        this.cdr.detectChanges();
+        alTerminar?.();
+      },
+      error: () => {
+        this.notificaciones = [];
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private marcarComoLeidas() {
+    if (this.noLeidas === 0) return;
+    this.http.put(`${this.notificacionUrl}/marcar-leidas`, {}, { responseType: 'text' }).subscribe({
+      next: () => {
+        this.notificaciones.forEach(n => n.leido = true);
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('No se pudo marcar como leídas:', err)
+    });
+  }
+
+  private conectarWebSocket() {
+    if (this.stompClient?.active) return;
+
+    this.stompClient = new Client({
+      brokerURL: 'ws://localhost:8083/ws-notificaciones',
+      reconnectDelay: 5000,
+      onConnect: () => {
+        this.stompClient?.subscribe('/topic/notificaciones', (mensaje) => {
+          const nueva: Notificacion = JSON.parse(mensaje.body);
+          this.notificaciones = [nueva, ...this.notificaciones];
+          this.cdr.detectChanges();
+        });
+
+        if (this.authService.usuarioActual?.rol === 'VOLUNTARIO') {
+          this.stompClient?.subscribe('/topic/chat', (mensaje) => {
+            const recibido: MensajeChat = JSON.parse(mensaje.body);
+            this.avisarMensajeChat(recibido);
+          });
+        }
+      },
+    });
+
+    this.stompClient.activate();
+  }
+
+  private avisarMensajeChat(mensaje: MensajeChat) {
+    const usuario = this.authService.usuarioActual;
+    if (!usuario || mensaje.rut === usuario.rut) return;
+
+    const esPrivado = !!mensaje.destinatarioRut;
+    if (esPrivado && mensaje.destinatarioRut !== usuario.rut) return;
+
+    const texto = esPrivado
+      ? `${mensaje.nombre} te escribió: ${mensaje.mensaje}`
+      : `${mensaje.nombre} (chat general): ${mensaje.mensaje}`;
+
+    this.toastCtrl.create({
+      message: texto,
+      duration: 4000,
+      position: 'bottom',
+      cssClass: 'toast-bottom-right toast-success',
+    }).then(toast => toast.present());
+  }
+
+  private desconectarWebSocket() {
+    this.stompClient?.deactivate();
+    this.stompClient = undefined;
   }
 
   cerrarSesion() {
