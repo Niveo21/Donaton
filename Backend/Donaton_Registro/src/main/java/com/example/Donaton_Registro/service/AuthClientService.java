@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,13 +16,16 @@ public class AuthClientService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Value("${auth.service.url}")
+    private String authServiceUrl;
+
     public String generarToken(String rut, String rol) {
         try {
             Map<String, String> body = new HashMap<>();
             body.put("rut", rut);
             body.put("rol", rol);
 
-            String url = "http://localhost:8089/auth/generar";
+            String url = authServiceUrl + "/auth/generar";
             TokenResponse respuesta = restTemplate.postForObject(url, body, TokenResponse.class);
             return respuesta != null ? respuesta.getToken() : null;
         } catch (Exception e) {

@@ -3,11 +3,14 @@ const axios = require('axios');
 
 const router = express.Router();
 
+const DONACION_URL = process.env.DONACION_URL || 'http://localhost:8080';
+const NOTIFICACION_URL = process.env.NOTIFICACION_URL || 'http://localhost:8083';
+
 // Endpoint: BFF consumiendo a tu microservicio en Java
 router.get('/', async (req, res) => {
     try {
         console.log("Consultando microservicio de Java...");
-        const response = await axios.get('http://localhost:8080/donacion');
+        const response = await axios.get(`${DONACION_URL}/donacion`);
 
         const dataOriginal = response.data;
         const dataLimpia = dataOriginal.map(item => ({
@@ -27,11 +30,11 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const response = await axios.post('http://localhost:8080/donacion', req.body);
+        const response = await axios.post(`${DONACION_URL}/donacion`, req.body);
 
         if (response.status === 200 || response.status === 201) {
             try {
-                await axios.post('http://localhost:8083/notificacion', {
+                await axios.post(`${NOTIFICACION_URL}/notificacion`, {
                     mensaje: "¡Gracias! Tu donación ha sido recibida",
                     leido: false
                 });

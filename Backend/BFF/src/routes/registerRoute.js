@@ -1,16 +1,17 @@
 const express = require('express');
-const axios = require('axios'); 
+const axios = require('axios');
 
 const router = express.Router();
 
 router.use(express.json());
 
+const REGISTRO_URL = process.env.REGISTRO_URL || 'http://localhost:8084';
 
 router.get('/listar', async (req, res) => {
     try {
-       
+
         console.log("Consultando microservicio de Java...");
-        const response = await axios.get('http://localhost:8084/registro');
+        const response = await axios.get(`${REGISTRO_URL}/registro`);
 
         
         const dataOriginal = response.data;
@@ -38,7 +39,7 @@ module.exports = router;
 
 router.post('/registro', async (req, res) => {
     try {
-        const response = await axios.post('http://localhost:8084/registro', req.body);
+        const response = await axios.post(`${REGISTRO_URL}/registro`, req.body);
         
         
         return res.status(201).json(response.data);
@@ -53,7 +54,7 @@ router.post('/registro', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         
-        const response = await axios.post('http://localhost:8084/registro/login', req.body);
+        const response = await axios.post(`${REGISTRO_URL}/registro/login`, req.body);
         return res.status(200).json(response.data);
     } catch (error) {
         console.error("Error en el microservicio de login:", error.message);

@@ -1,0 +1,236 @@
+services:
+
+  # ─── Infraestructura ──────────────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: donaton-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - donaton-net
+
+  eureka-server:
+    build: ./Backend/eureka-server
+    container_name: donaton-eureka
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    networks:
+      - donaton-net
+
+  # ─── Microservicios de dominio ────────────────────────────────────────────
+  registro:
+    build: ./Backend/Donaton_Registro
+    container_name: donaton-registro
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      EUREKA_URI: http://eureka-server:8090/eureka
+      AUTH_SERVICE_URL: http://autenticacion:8089
+      LOGISTICA_URL: http://logistica:8081
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mysql
+      - eureka-server
+      - logistica
+      - autenticacion
+    networks:
+      - donaton-net
+
+  donaciones:
+    build: ./Backend/Donaton_Donaciones
+    container_name: donaton-donaciones
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      EUREKA_URI: http://eureka-server:8090/eureka
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - donaton-net
+
+  necesidad:
+    build: ./Backend/Donaton_Necesidad
+    container_name: donaton-necesidad
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      EUREKA_URI: http://eureka-server:8090/eureka
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - donaton-net
+
+  notificaciones:
+    build: ./Backend/Donaton_Notificaciones
+    container_name: donaton-notificaciones
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      EUREKA_URI: http://eureka-server:8090/eureka
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - donaton-net
+
+  transporte:
+    build: ./Backend/Donaton-Transporte
+    container_name: donaton-transporte
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      EUREKA_URI: http://eureka-server:8090/eureka
+    ports:
+      - "8086:8086"
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - donaton-net
+
+  acopio:
+    build: ./Backend/Donaton-Acopio
+    container_name: donaton-acopio
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      EUREKA_URI: http://eureka-server:8090/eureka
+    ports:
+      - "8087:8087"
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - donaton-net
+
+  logistica:
+    build: ./Backend/Donaton-Logistica
+    container_name: donaton-logistica
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      EUREKA_URI: http://eureka-server:8090/eureka
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+      - eureka-server
+      - transporte
+      - acopio
+    networks:
+      - donaton-net
+
+  autenticacion:
+    build: ./Backend/Donaton-Autenticacion
+    container_name: donaton-autenticacion
+    restart: unless-stopped
+    environment:
+      EUREKA_URI: http://eureka-server:8090/eureka
+    ports:
+      - "8089:8089"
+    depends_on:
+      - eureka-server
+    networks:
+      - donaton-net
+
+  pago:
+    build: ./Backend/Donaton-Pago
+    container_name: donaton-pago
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      EUREKA_URI: http://eureka-server:8090/eureka
+    ports:
+      - "8088:8088"
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - donaton-net
+
+  # ─── Puerta de entrada ────────────────────────────────────────────────────
+  api-gateway:
+    build: ./Backend/api-gateway
+    container_name: donaton-gateway
+    restart: unless-stopped
+    environment:
+      EUREKA_URI: http://eureka-server:8090/eureka
+      BFF_URI: http://bff:3000
+    ports:
+      - "8085:8085"
+    depends_on:
+      - eureka-server
+    networks:
+      - donaton-net
+
+  bff:
+    build: ./Backend/BFF
+    container_name: donaton-bff
+    restart: unless-stopped
+    environment:
+      # Por ahora estos microservicios todavía corren directo en tu máquina
+      # (fuera de Docker) — por eso usamos host.docker.internal. A medida que
+      # se vayan agregando como contenedores en próximas fases, estos valores
+      # cambian al nombre del servicio (ej: http://donaton-registro:8084).
+      REGISTRO_URL: http://registro:8084
+      NECESIDAD_URL: http://necesidad:8082
+      DONACION_URL: http://donaciones:8080
+      NOTIFICACION_URL: http://notificaciones:8083
+      LOGISTICA_URL: http://logistica:8081
+      TRANSPORTE_URL: http://transporte:8086
+      ACOPIO_URL: http://acopio:8087
+    ports:
+      - "3000:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - registro
+      - donaciones
+      - necesidad
+      - notificaciones
+      - logistica
+    networks:
+      - donaton-net
+
+  # ─── Frontend ─────────────────────────────────────────────────────────────
+  frontend:
+    build: ./FrontendWeb/Donaton-Web
+    container_name: donaton-frontend
+    restart: unless-stopped
+    ports:
+      - "8100:8100"
+    depends_on:
+      - api-gateway
+    networks:
+      - donaton-net
+
+networks:
+  donaton-net:
+    driver: bridge
+
+volumes:
+  mysql_data:

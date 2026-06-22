@@ -3,6 +3,7 @@ package com.example.Donaton_Registro.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +24,9 @@ public class RegistroService {
 
     @Autowired
     private AuthClientService authClient;
+
+    @Value("${logistica.service.url}")
+    private String logisticaServiceUrl;
 
     public String almacenarRegistro(Registro registro) {
 
@@ -79,7 +83,7 @@ public class RegistroService {
     public void actualizarVoluntario(Registro registro) {
     if ("Voluntario".equalsIgnoreCase(registro.getRol())) {
         try {
-            String url = "http://localhost:8081/voluntario/actualizar";
+            String url = logisticaServiceUrl + "/voluntario/actualizar";
             restTemplate.postForObject(url, registro, Void.class);
         } catch (Exception e) {
             

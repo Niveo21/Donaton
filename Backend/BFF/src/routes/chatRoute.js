@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const router = express.Router();
 
-const CHAT_URL = 'http://localhost:8083/chat';
+const CHAT_URL = `${process.env.NOTIFICACION_URL || 'http://localhost:8083'}/chat`;
 
 // GET /chat — Historial de mensajes del chat de voluntarios
 router.get('/', async (req, res) => {

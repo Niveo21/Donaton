@@ -1,16 +1,17 @@
 const express = require('express');
-const axios = require('axios'); 
+const axios = require('axios');
 
 const router = express.Router();
 
 router.use(express.json());
 
+const NECESIDAD_URL = process.env.NECESIDAD_URL || 'http://localhost:8082';
 
 router.get('/listar', async (req, res) => {
     try {
-       
+
         console.log("Consultando microservicio de Java...");
-        const response = await axios.get('http://localhost:8084/necesidad');
+        const response = await axios.get(`${NECESIDAD_URL}/necesidad`);
 
         
         const dataOriginal = response.data;
@@ -38,7 +39,7 @@ router.get('/listar', async (req, res) => {
 
 router.post('/almacenar', async (req, res) => {
     try {
-        const response = await axios.post('http://localhost:8082/necesidad', req.body);
+        const response = await axios.post(`${NECESIDAD_URL}/necesidad`, req.body);
         
         
         return res.status(201).json(response.data);

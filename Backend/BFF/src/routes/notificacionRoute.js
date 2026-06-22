@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const router = express.Router();
 
-const NOTIFICACION_URL = 'http://localhost:8083/notificacion';
+const NOTIFICACION_URL = `${process.env.NOTIFICACION_URL || 'http://localhost:8083'}/notificacion`;
 
 // GET /notificacion — Listar todas las notificaciones
 router.get('/', async (req, res) => {

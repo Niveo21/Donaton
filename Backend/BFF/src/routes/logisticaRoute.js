@@ -3,9 +3,9 @@ const axios = require('axios');
 
 const router = express.Router();
 
-const LOGISTICA_URL = 'http://localhost:8081';
-const TRANSPORTE_URL = 'http://localhost:8086';
-const ACOPIO_URL = 'http://localhost:8087';
+const LOGISTICA_URL = process.env.LOGISTICA_URL || 'http://localhost:8081';
+const TRANSPORTE_URL = process.env.TRANSPORTE_URL || 'http://localhost:8086';
+const ACOPIO_URL = process.env.ACOPIO_URL || 'http://localhost:8087';
 
 // ACOPIO
 // GET /acopio
