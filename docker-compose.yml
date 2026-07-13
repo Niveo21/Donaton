@@ -203,6 +203,9 @@ services:
       LOGISTICA_URL: http://logistica:8081
       TRANSPORTE_URL: http://transporte:8086
       ACOPIO_URL: http://acopio:8087
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      CONTACTO_DESTINO: ${CONTACTO_DESTINO}
     ports:
       - "3000:3000"
     extra_hosts:

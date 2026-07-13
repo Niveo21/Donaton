@@ -206,6 +206,10 @@ export class DonarPage implements OnInit {
   }
 
   async confirmarEntregaAcopio() {
+    if (!this.acopioSeleccionado) {
+      await this.showToast('Selecciona un punto de acopio.', 'danger');
+      return;
+    }
     await this.enviarDonacionFisica('ACOPIO');
   }
 
@@ -261,6 +265,7 @@ export class DonarPage implements OnInit {
       comuna: this.domicilioForm.comuna,
       telefonoContacto: this.domicilioForm.telefono ? `+56${this.domicilioForm.telefono}` : '',
       nombreSolicitante,
+      acopioId: metodoEntrega === 'ACOPIO' ? this.acopioSeleccionado?.id : null,
     };
 
     switch (this.donationType) {

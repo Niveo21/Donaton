@@ -9,15 +9,37 @@ public class PagoRequest {
 
     public PagoRequest() {}
 
-    public int getDonacionId() { return donacionId; }
-    public void setDonacionId(int donacionId) { this.donacionId = donacionId; }
+    public int getDonacionId() {
+        return donacionId;
+    }
 
-    public double getMonto() { return monto; }
-    public void setMonto(double monto) { this.monto = monto; }
+    public void setDonacionId(int donacionId) {
+        this.donacionId = donacionId;
+    }
 
-    public String getMetodoPago() { return metodoPago; }
-    public void setMetodoPago(String metodoPago) { this.metodoPago = metodoPago; }
+    public double getMonto() {
+        return monto;
+    }
 
-    public String getNumeroTarjeta() { return numeroTarjeta; }
-    public void setNumeroTarjeta(String numeroTarjeta) { this.numeroTarjeta = numeroTarjeta; }
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public String getNumeroTarjeta() {
+        return numeroTarjeta;
+    }
+
+    public void setNumeroTarjeta(String numeroTarjeta) {
+        this.numeroTarjeta = numeroTarjeta;
+    }
+
+    
 }

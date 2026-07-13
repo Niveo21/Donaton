@@ -28,30 +28,77 @@ public class EnvioDTO {
         this.estado = envio.getEstado();
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public Integer getTransporteId() { return transporteId; }
-    public void setTransporteId(Integer transporteId) { this.transporteId = transporteId; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public TransporteDTO getTransporte() { return transporte; }
-    public void setTransporte(TransporteDTO transporte) { this.transporte = transporte; }
+    public Integer getTransporteId() {
+        return transporteId;
+    }
 
-    public Integer getAcopioDestinoId() { return acopioDestinoId; }
-    public void setAcopioDestinoId(Integer acopioDestinoId) { this.acopioDestinoId = acopioDestinoId; }
+    public void setTransporteId(Integer transporteId) {
+        this.transporteId = transporteId;
+    }
 
-    public AcopioDTO getAcopioDestino() { return acopioDestino; }
-    public void setAcopioDestino(AcopioDTO acopioDestino) { this.acopioDestino = acopioDestino; }
+    public TransporteDTO getTransporte() {
+        return transporte;
+    }
 
-    public String getTipoRecurso() { return tipoRecurso; }
-    public void setTipoRecurso(String tipoRecurso) { this.tipoRecurso = tipoRecurso; }
+    public void setTransporte(TransporteDTO transporte) {
+        this.transporte = transporte;
+    }
 
-    public int getCantidad() { return cantidad; }
-    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
+    public Integer getAcopioDestinoId() {
+        return acopioDestinoId;
+    }
 
-    public LocalDateTime getFechaEnvio() { return fechaEnvio; }
-    public void setFechaEnvio(LocalDateTime fechaEnvio) { this.fechaEnvio = fechaEnvio; }
+    public void setAcopioDestinoId(Integer acopioDestinoId) {
+        this.acopioDestinoId = acopioDestinoId;
+    }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public AcopioDTO getAcopioDestino() {
+        return acopioDestino;
+    }
+
+    public void setAcopioDestino(AcopioDTO acopioDestino) {
+        this.acopioDestino = acopioDestino;
+    }
+
+    public String getTipoRecurso() {
+        return tipoRecurso;
+    }
+
+    public void setTipoRecurso(String tipoRecurso) {
+        this.tipoRecurso = tipoRecurso;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public LocalDateTime getFechaEnvio() {
+        return fechaEnvio;
+    }
+
+    public void setFechaEnvio(LocalDateTime fechaEnvio) {
+        this.fechaEnvio = fechaEnvio;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    
 }

@@ -12,6 +12,8 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+//Solucionar Jwt, funciona mas no aplica
+
 @Service
 public class JwtService {
 

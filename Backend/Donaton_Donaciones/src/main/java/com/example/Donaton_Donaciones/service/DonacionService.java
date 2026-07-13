@@ -56,6 +56,7 @@ public class DonacionService {
         entidad.setDireccionRetiro(request.getDireccionRetiro());
         entidad.setComuna(request.getComuna());
         entidad.setTelefonoContacto(request.getTelefonoContacto());
+        entidad.setAcopioId(request.getAcopioId());
 
         // Guardar UNA SOLA VEZ en la BD
         Donacion donacionGuardada = donacionRepository.save(entidad);

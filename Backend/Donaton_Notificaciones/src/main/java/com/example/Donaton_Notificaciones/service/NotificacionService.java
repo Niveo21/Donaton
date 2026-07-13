@@ -20,6 +20,9 @@ public class NotificacionService {
 
 
     public void almacenarNotificacion(Notificacion notificacion) {
+        if (notificacion.getFechaEnvio() == null) {
+            notificacion.setFechaEnvio(java.time.LocalDateTime.now());
+        }
         Notificacion guardada = notificacionRepository.save(notificacion);
         messagingTemplate.convertAndSend("/topic/notificaciones", guardada);
     }

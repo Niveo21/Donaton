@@ -40,6 +40,7 @@ public class DonacionRequest {
     private String direccionRetiro;
     private String comuna;
     private String telefonoContacto;
+    private Integer acopioId; // solo si metodoEntrega = "ACOPIO"
 
 
     // Constructor vacío no tocar ultima advertencia
@@ -196,5 +197,13 @@ public class DonacionRequest {
 
     public void setTelefonoContacto(String telefonoContacto) {
         this.telefonoContacto = telefonoContacto;
+    }
+
+    public Integer getAcopioId() {
+        return acopioId;
+    }
+
+    public void setAcopioId(Integer acopioId) {
+        this.acopioId = acopioId;
     }
 }

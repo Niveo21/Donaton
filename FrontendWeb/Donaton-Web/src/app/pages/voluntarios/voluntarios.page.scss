@@ -22,10 +22,44 @@
 .vol-layout { display:grid; gap:48px; align-items:start; @media(min-width:992px){ grid-template-columns:1fr 1fr; } }
 .benefits-list { list-style:none; padding:0; margin-top:24px; display:flex; flex-direction:column; gap:12px; font-size:0.9rem; line-height:1.5; }
 .vol-info .section-title { font-family:'Plus Jakarta Sans',sans-serif; }
-.form-card { padding:36px; }
+.form-card { padding:36px; margin-bottom: 30px; }
 .form-group { margin-bottom:16px; }
 .form-row { display:grid; gap:16px; @media(min-width:480px){ grid-template-columns:1fr 1fr; } }
 .areas-grid { display:grid; gap:10px; margin-top:8px; @media(min-width:480px){ grid-template-columns:1fr 1fr; } }
 .full-width { width:100%; justify-content:center; }
+
+.phone-input {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--cs-border);
+  border-radius: 12px;
+  background: var(--cs-background);
+  padding: 0 16px;
+  transition: var(--cs-transition);
+
+  &:focus-within { border-color: var(--cs-accent); }
+
+  .phone-prefix {
+    color: var(--cs-muted-foreground);
+    font-size: 1rem;
+    font-weight: 600;
+    padding-right: 8px;
+    border-right: 1px solid var(--cs-border);
+  }
+
+
+  .phone-field {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    padding: 12px 0 12px 12px;
+    outline: none;
+    color: var(--cs-foreground);
+    width: 100%;
+
+    &::placeholder { color: var(--cs-muted-foreground); }
+  }
+}
 
 .section-pad { padding:40px 20px; }

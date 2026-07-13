@@ -24,27 +24,69 @@ public class VoluntarioDTO {
         this.transporteId = voluntario.getTransporteId();
     }
 
-    public String getRut() { return rut; }
-    public void setRut(String rut) { this.rut = rut; }
+    public String getRut() {
+        return rut;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setRut(String rut) {
+        this.rut = rut;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public Integer getAcopioId() { return acopioId; }
-    public void setAcopioId(Integer acopioId) { this.acopioId = acopioId; }
+    public String getEmail() {
+        return email;
+    }
 
-    public AcopioDTO getAcopio() { return acopio; }
-    public void setAcopio(AcopioDTO acopio) { this.acopio = acopio; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public Integer getTransporteId() { return transporteId; }
-    public void setTransporteId(Integer transporteId) { this.transporteId = transporteId; }
+    public String getRol() {
+        return rol;
+    }
 
-    public TransporteDTO getTransporte() { return transporte; }
-    public void setTransporte(TransporteDTO transporte) { this.transporte = transporte; }
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public Integer getAcopioId() {
+        return acopioId;
+    }
+
+    public void setAcopioId(Integer acopioId) {
+        this.acopioId = acopioId;
+    }
+
+    public AcopioDTO getAcopio() {
+        return acopio;
+    }
+
+    public void setAcopio(AcopioDTO acopio) {
+        this.acopio = acopio;
+    }
+
+    public Integer getTransporteId() {
+        return transporteId;
+    }
+
+    public void setTransporteId(Integer transporteId) {
+        this.transporteId = transporteId;
+    }
+
+    public TransporteDTO getTransporte() {
+        return transporte;
+    }
+
+    public void setTransporte(TransporteDTO transporte) {
+        this.transporte = transporte;
+    }
+
+    
 }

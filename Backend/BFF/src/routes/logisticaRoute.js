@@ -116,6 +116,54 @@ router.post('/inventario', async (req, res) => {
     }
 });
 
+// GET /inventario/acopio/:acopioId
+router.get('/inventario/acopio/:acopioId', async (req, res) => {
+    try {
+        const { acopioId } = req.params;
+        const response = await axios.get(`${LOGISTICA_URL}/inventario/acopio/${acopioId}`);
+        res.json(response.data);
+    } catch (error) {
+        console.error("Error en Inventario por acopio GET:", error.message);
+        res.status(500).json({ error: "Error al obtener inventario del punto" });
+    }
+});
+
+// POST /inventario/acopio/:acopioId
+router.post('/inventario/acopio/:acopioId', async (req, res) => {
+    try {
+        const { acopioId } = req.params;
+        const response = await axios.post(`${LOGISTICA_URL}/inventario/acopio/${acopioId}`, req.body);
+        return res.status(201).json({ mensaje: response.data });
+    } catch (error) {
+        console.error("Error en Inventario por acopio POST:", error.message);
+        res.status(500).json({ error: "Error al agregar item de inventario" });
+    }
+});
+
+// PUT /inventario/:id
+router.put('/inventario/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.put(`${LOGISTICA_URL}/inventario/${id}`, req.body);
+        res.json({ mensaje: response.data });
+    } catch (error) {
+        console.error("Error en Inventario PUT:", error.message);
+        res.status(500).json({ error: "Error al actualizar el item de inventario" });
+    }
+});
+
+// DELETE /inventario/:id
+router.delete('/inventario/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.delete(`${LOGISTICA_URL}/inventario/${id}`);
+        res.json({ mensaje: response.data });
+    } catch (error) {
+        console.error("Error en Inventario DELETE:", error.message);
+        res.status(500).json({ error: "Error al eliminar el item de inventario" });
+    }
+});
+
 // POST /inventario/actualizar
 router.post('/inventario/actualizar', async (req, res) => {
     try {

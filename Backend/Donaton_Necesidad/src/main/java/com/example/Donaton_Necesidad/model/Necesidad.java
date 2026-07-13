@@ -7,54 +7,26 @@ import jakarta.persistence.Id;
 public class Necesidad {
 
     @Id
-    private int id;
-    private String tipoRecursoRequerido;
-    private int cantidadSolicitada;
-    private String prioridad;
+    private long id;
+    private int acopioId;
+    private String tipo;       // "ALIMENTOS", "HIGIENE", "ROPA"
+    private String descripcion;
+    private boolean urgente;
 
+    public Necesidad() {}
 
-    public Necesidad() {
-    }
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
-    public Necesidad(int id, String tipoRecursoRequerido, int cantidadSolicitada, String prioridad) {
-        this.id = id;
-        this.tipoRecursoRequerido = tipoRecursoRequerido;
-        this.cantidadSolicitada = cantidadSolicitada;
-        this.prioridad = prioridad;
-    }
+    public int getAcopioId() { return acopioId; }
+    public void setAcopioId(int acopioId) { this.acopioId = acopioId; }
 
-    public int getId() {
-        return id;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public String getTipoRecursoRequerido() {
-        return tipoRecursoRequerido;
-    }
-
-    public void setTipoRecursoRequerido(String tipoRecursoRequerido) {
-        this.tipoRecursoRequerido = tipoRecursoRequerido;
-    }
-
-    public int getCantidadSolicitada() {
-        return cantidadSolicitada;
-    }
-
-    public void setCantidadSolicitada(int cantidadSolicitada) {
-        this.cantidadSolicitada = cantidadSolicitada;
-    }
-
-    public String getPrioridad() {
-        return prioridad;
-    }
-
-    public void setPrioridad(String prioridad) {
-        this.prioridad = prioridad;
-    }
-
-    
-
+    public boolean isUrgente() { return urgente; }
+    public void setUrgente(boolean urgente) { this.urgente = urgente; }
 }

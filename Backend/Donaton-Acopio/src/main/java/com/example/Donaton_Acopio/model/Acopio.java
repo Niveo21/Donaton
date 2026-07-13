@@ -12,15 +12,14 @@ public class Acopio {
     private String direccion;
     private String comuna;
 
-    // Contexto de la emergencia que este punto de acopio está atendiendo.
-    // tipoEmergencia: "INCENDIO", "INUNDACION", "TERREMOTO", "SEQUIA", "OTRO"
-    // El ícono se resuelve en el frontend a partir de este valor (evita problemas
-    // de encoding de emojis en la base de datos).
+    // Contexto jaja icono jasdan iujhas PNSA
     private String region;
     private String tipoEmergencia;
     private String titulo;
     private String descripcion;
     private boolean urgente;
+    private Double latitud;
+    private Double longitud;
 
     public Acopio() {}
 
@@ -31,30 +30,93 @@ public class Acopio {
         this.comuna = comuna;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getDireccion() { return direccion; }
-    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getComuna() { return comuna; }
-    public void setComuna(String comuna) { this.comuna = comuna; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public String getRegion() { return region; }
-    public void setRegion(String region) { this.region = region; }
+    public String getDireccion() {
+        return direccion;
+    }
 
-    public String getTipoEmergencia() { return tipoEmergencia; }
-    public void setTipoEmergencia(String tipoEmergencia) { this.tipoEmergencia = tipoEmergencia; }
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
+    public String getComuna() {
+        return comuna;
+    }
 
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public void setComuna(String comuna) {
+        this.comuna = comuna;
+    }
 
-    public boolean isUrgente() { return urgente; }
-    public void setUrgente(boolean urgente) { this.urgente = urgente; }
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getTipoEmergencia() {
+        return tipoEmergencia;
+    }
+
+    public void setTipoEmergencia(String tipoEmergencia) {
+        this.tipoEmergencia = tipoEmergencia;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public boolean isUrgente() {
+        return urgente;
+    }
+
+    public void setUrgente(boolean urgente) {
+        this.urgente = urgente;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
+    }
+
+   
 }

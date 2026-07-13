@@ -24,6 +24,7 @@ public class Donacion {
      private String direccionRetiro;
      private String comuna;
      private String telefonoContacto;
+     private Integer acopioId; // punto de acopio al que se destina (solo metodoEntrega = "ACOPIO")
 
 
         public Donacion() {
@@ -132,6 +133,14 @@ public class Donacion {
 
         public void setTelefonoContacto(String telefonoContacto) {
             this.telefonoContacto = telefonoContacto;
+        }
+
+        public Integer getAcopioId() {
+            return acopioId;
+        }
+
+        public void setAcopioId(Integer acopioId) {
+            this.acopioId = acopioId;
         }
 
 }

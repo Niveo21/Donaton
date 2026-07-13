@@ -13,6 +13,10 @@ public class Inventario {
     private Integer stockActual;
     private String estado;
 
+    // Null = stock general (alimentado por donaciones sin punto asignado).
+    // Con valor = stock cargado manualmente para un punto de acopio específico.
+    private Integer acopioId;
+
     public Inventario() {
     }
 
@@ -22,6 +26,9 @@ public class Inventario {
         this.stockActual = stockActual;
         this.estado = estado;
     }
+
+    public Integer getAcopioId() { return acopioId; }
+    public void setAcopioId(Integer acopioId) { this.acopioId = acopioId; }
 
     public Integer getId() {
         return id;

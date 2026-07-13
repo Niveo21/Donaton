@@ -6,6 +6,7 @@ const router = express.Router();
 router.use(express.json());
 
 const NECESIDAD_URL = process.env.NECESIDAD_URL || 'http://localhost:8082';
+const NOTIFICACION_URL = `${process.env.NOTIFICACION_URL || 'http://localhost:8083'}/notificacion`;
 
 router.get('/listar', async (req, res) => {
     try {
@@ -39,13 +40,17 @@ router.get('/listar', async (req, res) => {
 
 router.post('/almacenar', async (req, res) => {
     try {
-        const response = await axios.post(`${NECESIDAD_URL}/necesidad`, req.body);
-        
-        
-        return res.status(201).json(response.data);
+        const { acopioNombre, ...necesidad } = req.body;
 
+        await axios.post(`${NECESIDAD_URL}/necesidad`, necesidad);
 
-    }catch (error) {
+        const prefijo = necesidad.urgente ? 'URGENTE ' : '';
+        const mensaje = `${prefijo}El punto "${acopioNombre || 'Sin nombre'}" reporta necesidad de ${necesidad.tipo}. ${necesidad.descripcion || ''}`.trim();
+
+        await axios.post(NOTIFICACION_URL, { mensaje, leido: false });
+
+        return res.status(201).json({ mensaje: 'Necesidad registrada y notificación enviada.' });
+    } catch (error) {
         console.error("Error en el microservicio de necesidad:", error.message);
         res.status(500).json({ error: "No se pudo procesar la necesidad" });
     }

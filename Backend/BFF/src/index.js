@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const donacionRoute = require('./routes/donacionRoute');
 const registerRoute = require('./routes/registerRoute');
@@ -5,6 +7,7 @@ const logisticaRoute = require('./routes/logisticaRoute');
 const necesidadRoute = require('./routes/necesidadRoute');
 const notificacionRoute = require('./routes/notificacionRoute');
 const chatRoute = require('./routes/chatRoute');
+const contactoRoute = require('./routes/contactoRoute');
 
 const app = express();
 
@@ -21,6 +24,8 @@ app.use('/logistica', logisticaRoute);
 app.use('/notificacion', notificacionRoute);
 
 app.use('/chat', chatRoute);
+
+app.use('/contacto', contactoRoute);
 
 app.listen(3000, () => console.log('BFF corriendo en puerto 3000'));
 

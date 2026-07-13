@@ -2,29 +2,228 @@
 
 <ion-content [fullscreen]="true">
   <div class="cs-container page-content">
-    <span class="section-label">Emergencias</span>
-    <h1 class="section-title">Catástrofes activas en Chile</h1>
-    <p class="section-subtitle" style="max-width:600px;">
-      Estas son las campañas que están recibiendo aportes en este momento.
-    </p>
 
-    <div class="cards-grid" style="margin-top:48px;" *ngIf="emergencies.length > 0">
-      <div *ngFor="let e of emergencies" class="cs-card emergency-card" [class.urgente-pulse]="e.urgente">
-        <div class="card-img-wrap">
-          <img [src]="imagenDe(e.tipoEmergencia)" [alt]="e.titulo || e.nombre" loading="lazy" />
-          <div class="card-img-overlay"></div>
-          <span class="card-region" *ngIf="e.region">📍 {{ e.region }}</span>
-          <span class="card-icon-badge">{{ iconoDe(e.tipoEmergencia) }}</span>
-        </div>
-        <div class="card-body">
-          <h3>{{ e.titulo || e.nombre }}</h3>
-          <p class="card-desc text-muted">{{ e.descripcion }}</p>
-          <button class="btn-primary" (click)="goTo('/donar')">Aportar a esta causa</button>
+    <div class="page-header">
+      <span class="section-label">Encuentra tu punto</span>
+      <h1 class="section-title">Puntos de acopio en Chile</h1>
+      <p class="section-subtitle">
+        Explora el mapa. Haz clic en un punto para ver información y reportar necesidades.
+      </p>
+    </div>
+
+    <div class="busqueda-bar">
+      <ion-icon name="search-outline"></ion-icon>
+      <input
+        type="text"
+        placeholder="Buscar por ciudad, dirección o nombre..."
+        [(ngModel)]="busqueda"
+        (ngModelChange)="onBusquedaChange()" />
+    </div>
+
+    <div class="emergencias-layout">
+
+      <!-- Mapa + burbujas flotantes -->
+      <div class="mapa-wrap">
+        <div id="emergencias-map" class="emergencias-map"></div>
+
+        <!-- Burbujas flotantes sobre el pin seleccionado (solo voluntarios) -->
+        <div
+          class="bubble-overlay"
+          *ngIf="bubblePosicion && esVoluntario"
+          [style.left.px]="bubblePosicion.x"
+          [style.top.px]="bubblePosicion.y">
+          <button class="burbuja-mapa burbuja-ropa"      (click)="seleccionarBurbuja('ROPA')">👕</button>
+          <button class="burbuja-mapa burbuja-alimentos" (click)="seleccionarBurbuja('ALIMENTOS')">🍎</button>
+          <button class="burbuja-mapa burbuja-higiene"   (click)="seleccionarBurbuja('HIGIENE')">🧴</button>
         </div>
       </div>
+
+      <!-- Columna derecha: tarjeta fija + lista con scroll -->
+      <div class="emergencias-sidebar">
+
+        <!-- Tarjeta del punto seleccionado (fuera del scroll) -->
+        <div class="detalle-seleccionado" *ngIf="puntoSeleccionado">
+          <div class="detalle-header-row">
+            <span class="detalle-label">Seleccionado</span>
+            <button class="modal-close-btn" (click)="cerrarSeleccion()">✕</button>
+          </div>
+
+          <h3>{{ puntoSeleccionado.titulo || puntoSeleccionado.nombre }}</h3>
+
+          <p class="detalle-linea">
+            <ion-icon name="location-outline"></ion-icon>
+            {{ puntoSeleccionado.direccion }}, {{ puntoSeleccionado.comuna }}
+          </p>
+          <p class="detalle-linea">
+            <ion-icon name="time-outline"></ion-icon>
+            L-V 10:00–20:00
+          </p>
+          <p class="detalle-linea">
+            <ion-icon name="call-outline"></ion-icon>
+            +56 2 2987 1234
+          </p>
+
+          <div class="detalle-botones">
+            <button class="btn-hero" (click)="goTo('/donar')">Donar aquí</button>
+            <button class="btn-outline" *ngIf="puedeVerDetalles" (click)="abrirDetalles()">Ver detalles</button>
+          </div>
+        </div>
+
+        <!-- Panel con scroll — solo la lista -->
+        <div class="emergencias-panel">
+          <p class="panel-count">{{ emergenciesFiltradas.length }} PUNTOS</p>
+
+          <div
+            class="punto-item"
+            *ngFor="let e of emergenciesFiltradas"
+            (click)="irAPin(e)"
+            [class.clickable]="e.latitud != null"
+            [class.seleccionado]="puntoSeleccionado?.id === e.id">
+
+            <div class="punto-icon">
+              <ion-icon name="location-outline"></ion-icon>
+            </div>
+            <div class="punto-info">
+              <div class="punto-nombre-row">
+                <strong>{{ e.titulo || e.nombre }}</strong>
+                <span class="punto-urgente" *ngIf="e.urgente">urgente</span>
+              </div>
+              <p class="punto-direccion">{{ e.direccion }}, {{ e.comuna }}</p>
+              <p class="punto-tipo" *ngIf="e.tipoEmergencia">{{ e.tipoEmergencia }}</p>
+            </div>
+          </div>
+
+          <p class="text-muted" style="font-size:0.85rem;" *ngIf="emergenciesFiltradas.length === 0">
+            {{ busqueda ? 'No se encontraron puntos para tu búsqueda.' : 'No hay puntos de acopio activos.' }}
+          </p>
+        </div>
+      </div>
+
     </div>
-    <p class="text-muted" style="margin-top:48px;" *ngIf="emergencies.length === 0">
-      No hay emergencias activas en este momento.
-    </p>
   </div>
 </ion-content>
+
+<!-- Modal de necesidad -->
+<div class="necesidad-overlay" *ngIf="modalNecesidad" (click)="cerrarModalNecesidad()">
+  <div class="necesidad-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <h3>Reportar necesidad</h3>
+      <button class="modal-close-btn" (click)="cerrarModalNecesidad()">✕</button>
+    </div>
+
+    <div class="modal-tipo-badge">
+      <span *ngIf="tipoSeleccionado === 'ALIMENTOS'">🍎 Alimentos</span>
+      <span *ngIf="tipoSeleccionado === 'HIGIENE'">🧴 Higiene</span>
+      <span *ngIf="tipoSeleccionado === 'ROPA'">👕 Ropa</span>
+      en <strong>{{ puntoSeleccionado?.titulo || puntoSeleccionado?.nombre }}</strong>
+    </div>
+
+    <div class="form-group">
+      <label class="cs-label">Información adicional</label>
+      <textarea
+        class="cs-textarea"
+        rows="4"
+        placeholder="Describe qué se necesita, cuánto, para cuándo..."
+        [(ngModel)]="necesidadForm.descripcion">
+      </textarea>
+    </div>
+
+    <label class="cs-checkbox-label" style="margin-bottom: 20px;">
+      <input type="checkbox" [(ngModel)]="necesidadForm.urgente" />
+      <span>Marcar como urgente</span>
+    </label>
+
+    <div class="modal-actions">
+      <button class="btn-outline" (click)="cerrarModalNecesidad()">Cancelar</button>
+      <button class="btn-hero" (click)="enviarNecesidad()">Enviar reporte</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de detalles del punto -->
+<div class="necesidad-overlay" *ngIf="modalDetalles" (click)="cerrarModalDetalles()">
+  <div class="necesidad-modal detalles-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <h3>{{ puntoSeleccionado?.titulo || puntoSeleccionado?.nombre }}</h3>
+      <button class="modal-close-btn" (click)="cerrarModalDetalles()">✕</button>
+    </div>
+    <p class="text-muted" style="font-size:0.85rem; margin-top:-8px; margin-bottom:20px;">
+      {{ puntoSeleccionado?.direccion }}, {{ puntoSeleccionado?.comuna }}
+    </p>
+
+    <!-- Voluntarios asociados -->
+    <div class="detalles-seccion">
+      <p class="detalles-seccion-titulo">
+        <ion-icon name="people-outline"></ion-icon> Voluntarios asociados ({{ voluntariosAcopio.length }})
+      </p>
+      <div class="detalles-lista">
+        <div class="detalles-item" *ngFor="let v of voluntariosAcopio">
+          <strong>{{ v.nombre }}</strong>
+          <span class="text-muted">{{ v.rut }}</span>
+        </div>
+        <p class="text-muted" style="font-size:0.8rem;" *ngIf="voluntariosAcopio.length === 0">
+          No hay voluntarios asignados a este punto.
+        </p>
+      </div>
+    </div>
+
+    <!-- Inventario -->
+    <div class="detalles-seccion">
+      <p class="detalles-seccion-titulo">
+        <ion-icon name="cube-outline"></ion-icon> Inventario del punto ({{ inventarioAcopio.length }})
+      </p>
+      <div class="detalles-lista">
+        <div class="detalles-item" *ngFor="let i of inventarioAcopio">
+
+          <!-- Modo edición (solo admin, y solo el item activo) -->
+          <ng-container *ngIf="esAdmin && editandoItemId === i.id; else vistaNormal">
+            <input class="cs-input" [(ngModel)]="edicionItem.recurso" />
+            <input class="cs-input" type="number" style="max-width:90px;" [(ngModel)]="edicionItem.cantidad" />
+            <button class="detalles-icon-btn" (click)="guardarEdicionItem(i.id)" aria-label="Guardar">
+              <ion-icon name="checkmark-outline"></ion-icon>
+            </button>
+            <button class="detalles-icon-btn" (click)="cancelarEdicion()" aria-label="Cancelar">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
+          </ng-container>
+
+          <!-- Modo vista -->
+          <ng-template #vistaNormal>
+            <div class="detalles-item-info">
+              <strong>{{ i.recurso }}</strong>
+              <span class="text-muted">{{ i.stockActual }} unidades · {{ i.estado }}</span>
+            </div>
+            <div class="detalles-item-acciones" *ngIf="esAdmin">
+              <button class="detalles-icon-btn" (click)="comenzarEdicion(i)" aria-label="Editar">
+                <ion-icon name="create-outline"></ion-icon>
+              </button>
+              <button class="detalles-icon-btn" (click)="eliminarItemInventario(i.id)" aria-label="Eliminar">
+                <ion-icon name="trash-outline"></ion-icon>
+              </button>
+            </div>
+          </ng-template>
+        </div>
+        <p class="text-muted" style="font-size:0.8rem;" *ngIf="inventarioAcopio.length === 0">
+          Este punto aún no tiene inventario cargado.
+        </p>
+      </div>
+
+      <!-- Formulario para agregar item — solo ADMIN -->
+      <div class="detalles-form-agregar" *ngIf="esAdmin">
+        <input
+          class="cs-input"
+          placeholder="Recurso (ej: Agua embotellada)"
+          [(ngModel)]="nuevoItemInventario.recurso" />
+        <input
+          class="cs-input"
+          type="number"
+          placeholder="Cantidad"
+          [(ngModel)]="nuevoItemInventario.cantidad" />
+        <button class="btn-primary" (click)="agregarItemInventario()">Agregar</button>
+      </div>
+    </div>
+
+  </div>
+</div>

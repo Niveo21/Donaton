@@ -72,11 +72,18 @@
           </div>
           <div class="form-group">
             <label class="cs-label">Teléfono</label>
-            <input class="cs-input" placeholder="+56 9 1234 5678" [(ngModel)]="form.telefono" name="telefono" />
-          </div>
-          <div class="form-group">
-            <label class="cs-label">Región</label>
-            <input class="cs-input" placeholder="Valparaíso, Biobío, Metropolitana..." [(ngModel)]="form.region" name="region" />
+            <div class="phone-input">
+              <span class="phone-prefix">+56</span>
+              <input
+                class="phone-field"
+                type="tel"
+                inputmode="numeric"
+                placeholder="9 1234 5678"
+                maxlength="9"
+                [(ngModel)]="form.telefono"
+                name="telefono"
+              />
+            </div>
           </div>
           <div class="form-group">
             <label class="cs-label">Contraseña</label>
