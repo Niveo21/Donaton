@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 interface TransporteDTO { id: number; tipo: string; modelo: string; placa: string; }
 interface AcopioDTO { id: number; nombre: string; direccion: string; comuna: string; }
@@ -26,7 +27,7 @@ export class PerfilVoluntarioPage implements OnInit {
   voluntario: VoluntarioDTO | null = null;
   cargando = true;
 
-  private voluntarioUrl = 'http://localhost:8085/logistica/voluntario';
+  private voluntarioUrl = `${environment.apiUrl}/logistica/voluntario`;
 
   constructor(
     private http: HttpClient,

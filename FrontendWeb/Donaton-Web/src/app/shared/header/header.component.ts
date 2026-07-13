@@ -3,6 +3,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Client } from '@stomp/stompjs';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 interface Notificacion {
   id: number;
@@ -36,7 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notificacionesAbierto = false;
   notifEvent: Event | undefined;
 
-  private notificacionUrl = 'http://localhost:8083/notificacion';
+  private notificacionUrl = `${environment.apiUrl}/notificacion`;
   private stompClient: Client | undefined;
 
   constructor(
@@ -128,7 +129,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.stompClient?.active) return;
 
     this.stompClient = new Client({
-      brokerURL: 'ws://localhost:8083/ws-notificaciones',
+      brokerURL: `${environment.wsUrl}/ws-notificaciones`,
       reconnectDelay: 5000,
       onConnect: () => {
         this.stompClient?.subscribe('/topic/notificaciones', (mensaje) => {

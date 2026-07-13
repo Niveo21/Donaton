@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NavController, ToastController } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-contacto',
@@ -12,7 +13,7 @@ export class ContactoPage {
   form = { nombre: '', email: '', asunto: '', mensaje: '' };
   enviando = false;
 
-  private apiUrl = 'http://localhost:8085/contacto';
+  private apiUrl = `${environment.apiUrl}/contacto`;
 
   constructor(
     private navCtrl: NavController,

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { NavController, ToastController } from '@ionic/angular';
 import { iconoDeEmergencia, imagenDeEmergencia } from '../../shared/emergencia-utils';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 import * as L from 'leaflet';
 
 interface Acopio {
@@ -68,10 +69,10 @@ export class EmergenciasPage implements OnInit, OnDestroy {
   private marcadores: Map<number, L.Marker> = new Map();
   private marcadorActivo: L.Marker | null = null;
 
-  private acopioUrl     = 'http://localhost:8085/logistica/acopio';
-  private necesidadUrl  = 'http://localhost:8085/necesidad/almacenar';
-  private voluntarioUrl = 'http://localhost:8085/logistica/voluntario';
-  private inventarioUrl = 'http://localhost:8085/logistica/inventario';
+  private acopioUrl     = `${environment.apiUrl}/logistica/acopio`;
+  private necesidadUrl  = `${environment.apiUrl}/necesidad/almacenar`;
+  private voluntarioUrl = `${environment.apiUrl}/logistica/voluntario`;
+  private inventarioUrl = `${environment.apiUrl}/logistica/inventario`;
 
   constructor(
     private http: HttpClient,

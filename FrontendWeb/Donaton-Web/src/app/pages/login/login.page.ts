@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginPage {
   email = '';
   password = '';
 
-  private apiUrl = 'http://localhost:8085/usuario/login';
+  private apiUrl = `${environment.apiUrl}/usuario/login`;
 
   constructor(
     private navCtrl: NavController,

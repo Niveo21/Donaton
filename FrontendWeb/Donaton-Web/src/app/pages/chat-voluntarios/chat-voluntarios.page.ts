@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
 import { Client } from '@stomp/stompjs';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 interface MensajeChat {
   id?: number;
@@ -30,8 +31,8 @@ export class ChatVoluntariosPage implements OnInit, OnDestroy {
   canalActivo: { rut: string | null; nombre: string } = { rut: null, nombre: 'General' };
   texto = '';
 
-  private chatHistorialUrl = 'http://localhost:8085/chat';
-  private voluntarioUrl = 'http://localhost:8085/logistica/voluntario';
+  private chatHistorialUrl = `${environment.apiUrl}/chat`;
+  private voluntarioUrl = `${environment.apiUrl}/logistica/voluntario`;
   private stompClient: Client | undefined;
 
   constructor(
@@ -108,7 +109,7 @@ export class ChatVoluntariosPage implements OnInit, OnDestroy {
 
   private conectarWebSocket() {
     this.stompClient = new Client({
-      brokerURL: 'ws://localhost:8083/ws-notificaciones',
+      brokerURL: `${environment.wsUrl}/ws-notificaciones`,
       reconnectDelay: 5000,
       onConnect: () => {
         this.stompClient?.subscribe('/topic/chat', (mensaje) => {

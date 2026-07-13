@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { iconoDeEmergencia, imagenDeEmergencia } from '../../shared/emergencia-utils';
+import { environment } from '../../../environments/environment';
 
 interface ItemDonacion { nombre: string; cantidad: number; }
 interface PuntoAcopio {
@@ -66,8 +67,8 @@ export class DonarPage implements OnInit {
   domicilioForm = { direccion: '', comuna: '', telefono: '' };
   tarjetaForm = { numero: '', vencimiento: '', cvv: '' };
 
-  private apiUrl = 'http://localhost:8085/donacion';
-  private acopioUrl = 'http://localhost:8085/logistica/acopio';
+  private apiUrl = `${environment.apiUrl}/donacion`;
+  private acopioUrl = `${environment.apiUrl}/logistica/acopio`;
 
   constructor(
     private navCtrl: NavController,

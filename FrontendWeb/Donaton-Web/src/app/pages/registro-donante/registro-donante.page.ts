@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-registro-donante',
@@ -11,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class RegistroDonantePage {
   form = { nombre: '', rut: '', email: '', password: '', confirmar: '' };
 
-  private apiUrl = 'http://localhost:8085/usuario/registro';
+  private apiUrl = `${environment.apiUrl}/usuario/registro`;
 
   constructor(
     private navCtrl: NavController,

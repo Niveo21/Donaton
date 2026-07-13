@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
 import { iconoDeEmergencia, imagenDeEmergencia } from '../../shared/emergencia-utils';
+import { environment } from '../../../environments/environment';
 
 interface Acopio {
   id: number;
@@ -26,7 +27,7 @@ export class HomePage implements OnInit {
 
   emergencies: Acopio[] = [];
 
-  private acopioUrl = 'http://localhost:8085/logistica/acopio';
+  private acopioUrl = `${environment.apiUrl}/logistica/acopio`;
 
   constructor(private navCtrl: NavController, private http: HttpClient) {}
 

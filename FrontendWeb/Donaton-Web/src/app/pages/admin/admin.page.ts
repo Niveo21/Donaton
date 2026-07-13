@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { NavController, ToastController } from '@ionic/angular';
 import { forkJoin } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 import * as L from 'leaflet';
 
 interface Acopio {
@@ -95,10 +96,10 @@ export class AdminPage implements OnInit, OnDestroy {
   private pinTemporal: L.Marker | null = null;
   private marcadorActivo: L.Marker | null = null;
 
-  private acopioUrl     = 'http://localhost:8085/logistica/acopio';
-  private transporteUrl = 'http://localhost:8085/logistica/transporte';
-  private voluntarioUrl = 'http://localhost:8085/logistica/voluntario';
-  private inventarioUrl = 'http://localhost:8085/logistica/inventario';
+  private acopioUrl     = `${environment.apiUrl}/logistica/acopio`;
+  private transporteUrl = `${environment.apiUrl}/logistica/transporte`;
+  private voluntarioUrl = `${environment.apiUrl}/logistica/voluntario`;
+  private inventarioUrl = `${environment.apiUrl}/logistica/inventario`;
 
   constructor(
     private http: HttpClient,

@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // IP de tu máquina en la red local — cámbiala aquí si cambia tu red WiFi
+  apiUrl: 'http://192.168.100.10:8085',
+  wsUrl: 'ws://192.168.100.10:8083',
 };
 
 /*

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-registro-empresa',
@@ -11,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class RegistroEmpresaPage {
   form = { razon: '', rut: '', giro: '', contacto: '', email: '', telefono: '', password: '' };
 
-  private apiUrl = 'http://localhost:8085/usuario/registro';
+  private apiUrl = `${environment.apiUrl}/usuario/registro`;
 
   constructor(
     private navCtrl: NavController,

@@ -37,6 +37,18 @@ router.post('/', async (req, res) => {
     }
 });
 
+// DELETE /notificacion/:id — Eliminar una notificación
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await axios.delete(`${NOTIFICACION_URL}/${id}`);
+        res.json({ mensaje: response.data });
+    } catch (error) {
+        console.error("Error al eliminar notificación:", error.message);
+        res.status(500).json({ error: "No se pudo eliminar la notificación" });
+    }
+});
+
 // PUT /notificacion/marcar-leidas — Marcar todas como leídas
 router.put('/marcar-leidas', async (req, res) => {
     try {
